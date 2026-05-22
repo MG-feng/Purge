@@ -10,6 +10,12 @@
 
 ---
 
+[![Play on itch.io](https://img.shields.io/badge/Play%20on-itch.io-FA5C5C?style=for-the-badge&logo=itch.io&logoColor=white)](https://mg-feng.itch.io/purge)
+
+**itch.io 页面：** [https://mg-feng.itch.io/purge](https://mg-feng.itch.io/purge)
+
+---
+
 ## ✨ 特色 / Features
 
 | 中文 | English |
@@ -54,9 +60,12 @@
 
 ## 📦 下载与安装 / Download & Installation
 
-请访问 [GitHub Releases](https://github.com/MG-feng/Purge/releases) 页面下载最新版本。
+- **itch.io 下载：** [https://mg-feng.itch.io/purge](https://mg-feng.itch.io/purge)
+- **GitHub Releases：** [https://github.com/MG-feng/Purge/releases](https://github.com/MG-feng/Purge/releases)
 
-Please visit the [GitHub Releases](https://github.com/MG-feng/Purge/releases) page to download the latest version.
+请访问以上页面下载最新版本。
+
+Please visit the links above to download the latest version.
 
 ---
 
@@ -102,6 +111,7 @@ If you'd like to join the development team, feel free to contact me!
 | YouTube | [@MG.melvin](https://www.youtube.com/@MG.melvin) |
 | Discord | [https://discord.gg/fJPw2qMBQ4](https://discord.gg/fJPw2qMBQ4) |
 | GitHub | [https://github.com/MG-feng/Purge](https://github.com/MG-feng/Purge) |
+| itch.io | [https://mg-feng.itch.io/purge](https://mg-feng.itch.io/purge) |
 
 ---
 
