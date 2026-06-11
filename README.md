@@ -40,7 +40,7 @@
 | GPU | 10W，1 GB |
 | 内存 / RAM | 2 GB |
 | 磁盘空间 / Disk Space | 400 MB |
-| 操作系统 / OS | Windows 8 64-bit / macOS 10.14 / Ubuntu 20.04 |
+| 操作系统 / OS | Windows 8 64-bit / macOS 10.14 |
 | 网络 / Network | 离线 / Offline |
 | 显卡驱动 / Graphics Driver | 支持 OpenGL 2.1+ 或 DirectX 11 / OpenGL 2.1+ or DirectX 11 support |
 
@@ -52,7 +52,7 @@
 | GPU | 20W，2 GB |
 | 内存 / RAM | 3 GB |
 | 磁盘空间 / Disk Space | 750 MB（推荐 SSD / SSD recommended） |
-| 操作系统 / OS | Windows 10 64-bit / macOS 12+ / Ubuntu 22.04 |
+| 操作系统 / OS | Windows 10 64-bit / macOS 12+ |
 | 网络 / Network | 离线 / Offline |
 | 显卡驱动 / Graphics Driver | 支持 OpenGL 4.5+ 或 DirectX 12 / OpenGL 4.5+ or DirectX 12 support |
 
