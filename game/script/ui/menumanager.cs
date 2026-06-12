@@ -11,9 +11,9 @@ namespace purge_v0_4_0.game.script.ui
     {
         private game1 _game;
         private localization _loc;
-        private spritefont _font;
-        private spritefont _smallfont;
-        private spritefont _titlefont;
+        private SpriteFont _font;
+        private SpriteFont _smallfont;
+        private SpriteFont _titlefont;
 
         // 百科状态
         public string bestiarycategory = "enemies";
@@ -26,43 +26,43 @@ namespace purge_v0_4_0.game.script.ui
             _loc = game.localization;
         }
 
-        public void loadcontent(spritebatch spritebatch, texture2d pixel)
+        public void loadcontent(SpriteBatch SpriteBatch, Texture2D pixel)
         {
-            _font = spritefont.default;
-            _smallfont = spritefont.default;
-            _titlefont = spritefont.default;
+            _font = SpriteFont.default;
+            _smallfont = SpriteFont.default;
+            _titlefont = SpriteFont.default;
         }
 
-        public void updatemenu(mousestate mouse, mousestate prevmouse, game1 game)
+        public void updatemenu(MouseState mouse, MouseState prevmouse, game1 game)
         {
             // 菜单点击处理在 game1 中实现
         }
 
-        public void updatedifficulty(mousestate mouse, mousestate prevmouse, ref string selected, game1 game)
+        public void updatedifficulty(MouseState mouse, MouseState prevmouse, ref string selected, game1 game)
         {
             // 难度选择点击处理在 game1 中实现
         }
 
-        public void updatepause(mousestate mouse, mousestate prevmouse, game1 game)
+        public void updatepause(MouseState mouse, MouseState prevmouse, game1 game)
         {
             // 暂停菜单点击处理在 game1 中实现
         }
 
-        public void updatebestiary(mousestate mouse, mousestate prevmouse, keyboardstate keyboard, keyboardstate prevkeyboard)
+        public void updatebestiary(MouseState mouse, MouseState prevmouse, KeyboardState keyboard, KeyboardState prevkeyboard)
         {
             var list = getbestiarylist();
 
-            if (keyboard.iskeydown(keys.up) && !prevkeyboard.iskeydown(keys.up))
+            if (keyboard.iskeydown(Keys.up) && !prevkeyboard.iskeydown(Keys.up))
             {
                 bestiaryindex = math.max(1, bestiaryindex - 1);
             }
-            if (keyboard.iskeydown(keys.down) && !prevkeyboard.iskeydown(keys.down))
+            if (keyboard.iskeydown(Keys.down) && !prevkeyboard.iskeydown(Keys.down))
             {
                 bestiaryindex = math.min(list.count, bestiaryindex + 1);
             }
         }
 
-        public void drawmenu(spritebatch spritebatch, int maxbits)
+        public void drawmenu(SpriteBatch SpriteBatch, int maxbits)
         {
             var w = _game.graphicsdevice.viewport.width;
             var h = _game.graphicsdevice.viewport.height;
@@ -70,11 +70,11 @@ namespace purge_v0_4_0.game.script.ui
             var bh = 50f;
             var starty = h / 2 - 100;
 
-            _game.graphicsdevice.clear(color.black);
+            _game.graphicsdevice.clear(Color.black);
 
             var title = "purge";
             var titlesize = _titlefont.measurestring(title);
-            spritebatch.drawstring(_titlefont, title, new vector2(w / 2 - titlesize.x / 2, 100), color.white);
+            SpriteBatch.drawstring(_titlefont, title, new Vector2(w / 2 - titlesize.x / 2, 100), Color.white);
 
             var buttons = new[]
             {
@@ -88,14 +88,14 @@ namespace purge_v0_4_0.game.script.ui
             {
                 var x = (w - bw) / 2;
                 var y = btn.y;
-                primitives2d.fillrectangle(spritebatch, new rectangle((int)x, (int)y, (int)bw, (int)bh), color.cornflowerblue, 10);
-                spritebatch.drawstring(_font, btn.text, new vector2(x + bw / 2 - _font.measurestring(btn.text).x / 2, y + 12), color.white);
+                primitives2d.fillrectangle(SpriteBatch, new Rectangle((int)x, (int)y, (int)bw, (int)bh), Color.cornflowerblue, 10);
+                SpriteBatch.drawstring(_font, btn.text, new Vector2(x + bw / 2 - _font.measurestring(btn.text).x / 2, y + 12), Color.white);
             }
 
-            spritebatch.drawstring(_smallfont, $"{_loc.get("bits")}: {maxbits}", new vector2(10, 10), color.yellow);
+            SpriteBatch.drawstring(_smallfont, $"{_loc.get("bits")}: {maxbits}", new Vector2(10, 10), Color.yellow);
         }
 
-        public void drawdifficulty(spritebatch spritebatch)
+        public void drawdifficulty(SpriteBatch SpriteBatch)
         {
             var w = _game.graphicsdevice.viewport.width;
             var h = _game.graphicsdevice.viewport.height;
@@ -103,11 +103,11 @@ namespace purge_v0_4_0.game.script.ui
             var bh = 50f;
             var starty = h / 2 - 120;
 
-            _game.graphicsdevice.clear(color.black);
+            _game.graphicsdevice.clear(Color.black);
 
             var title = _loc.get("select_difficulty");
             var titlesize = _titlefont.measurestring(title);
-            spritebatch.drawstring(_titlefont, title, new vector2(w / 2 - titlesize.x / 2, 100), color.white);
+            SpriteBatch.drawstring(_titlefont, title, new Vector2(w / 2 - titlesize.x / 2, 100), Color.white);
 
             var difficulties = new[]
             {
@@ -122,21 +122,21 @@ namespace purge_v0_4_0.game.script.ui
             {
                 var x = (w - bw) / 2;
                 var y = d.y;
-                primitives2d.fillrectangle(spritebatch, new rectangle((int)x, (int)y, (int)bw, (int)bh), color.cornflowerblue, 10);
-                spritebatch.drawstring(_font, d.text, new vector2(x + bw / 2 - _font.measurestring(d.text).x / 2, y + 12), color.white);
+                primitives2d.fillrectangle(SpriteBatch, new Rectangle((int)x, (int)y, (int)bw, (int)bh), Color.cornflowerblue, 10);
+                SpriteBatch.drawstring(_font, d.text, new Vector2(x + bw / 2 - _font.measurestring(d.text).x / 2, y + 12), Color.white);
             }
 
-            spritebatch.drawstring(_smallfont, _loc.get("press_esc_return"), new vector2(10, h - 30), color.lightgray);
+            SpriteBatch.drawstring(_smallfont, _loc.get("press_esc_return"), new Vector2(10, h - 30), Color.lightgray);
         }
 
-        public void drawpausemenu(spritebatch spritebatch)
+        public void drawpausemenu(SpriteBatch SpriteBatch)
         {
             var w = _game.graphicsdevice.viewport.width;
             var h = _game.graphicsdevice.viewport.height;
 
             var title = _loc.get("paused");
             var titlesize = _titlefont.measurestring(title);
-            spritebatch.drawstring(_titlefont, title, new vector2(w / 2 - titlesize.x / 2, h / 2 - 100), color.white);
+            SpriteBatch.drawstring(_titlefont, title, new Vector2(w / 2 - titlesize.x / 2, h / 2 - 100), Color.white);
 
             var items = new[]
             {
@@ -149,20 +149,20 @@ namespace purge_v0_4_0.game.script.ui
             {
                 var size = _font.measurestring(item.text);
                 var x = (w - size.x) / 2;
-                spritebatch.drawstring(_font, item.text, new vector2(x, item.y), color.white);
+                SpriteBatch.drawstring(_font, item.text, new Vector2(x, item.y), Color.white);
             }
         }
 
-        public void drawbestiary(spritebatch spritebatch)
+        public void drawbestiary(SpriteBatch SpriteBatch)
         {
             var w = _game.graphicsdevice.viewport.width;
             var h = _game.graphicsdevice.viewport.height;
 
-            _game.graphicsdevice.clear(color.darkblue);
+            _game.graphicsdevice.clear(Color.darkblue);
 
             var title = "bestiary";
             var titlesize = _titlefont.measurestring(title);
-            spritebatch.drawstring(_titlefont, title, new vector2(w / 2 - titlesize.x / 2, 10), color.white);
+            SpriteBatch.drawstring(_titlefont, title, new Vector2(w / 2 - titlesize.x / 2, 10), Color.white);
 
             // 分类标签
             var tabwidth = 100f;
@@ -183,9 +183,9 @@ namespace purge_v0_4_0.game.script.ui
 
             foreach (var cat in categories)
             {
-                var bgcolor = bestiarycategory == cat.cat ? color.lightblue : color.darkblue;
-                primitives2d.fillrectangle(spritebatch, new rectangle((int)cat.x, (int)starty, (int)tabwidth, (int)tabheight), bgcolor, 10);
-                spritebatch.drawstring(_smallfont, cat.name, new vector2(cat.x + tabwidth / 2 - _smallfont.measurestring(cat.name).x / 2, starty + 10), color.white);
+                var bgcolor = bestiarycategory == cat.cat ? Color.lightblue : Color.darkblue;
+                primitives2d.fillrectangle(SpriteBatch, new Rectangle((int)cat.x, (int)starty, (int)tabwidth, (int)tabheight), bgcolor, 10);
+                SpriteBatch.drawstring(_smallfont, cat.name, new Vector2(cat.x + tabwidth / 2 - _smallfont.measurestring(cat.name).x / 2, starty + 10), Color.white);
             }
 
             // 左侧列表
@@ -195,7 +195,7 @@ namespace purge_v0_4_0.game.script.ui
             var listw = 200;
             var listh = h - 200;
 
-            primitives2d.fillrectangle(spritebatch, new rectangle(listx, listy, listw, listh), color.darkblue * 0.8f, 10);
+            primitives2d.fillrectangle(SpriteBatch, new Rectangle(listx, listy, listw, listh), Color.darkblue * 0.8f, 10);
 
             var itemheight = 30;
             var visibleitems = listh / itemheight;
@@ -209,30 +209,30 @@ namespace purge_v0_4_0.game.script.ui
                 var isselected = (i + 1) == bestiaryindex;
 
                 if (isselected)
-                    primitives2d.fillrectangle(spritebatch, new rectangle(listx + 5, y, listw - 15, itemheight - 4), color.cornflowerblue, 5);
+                    primitives2d.fillrectangle(SpriteBatch, new Rectangle(listx + 5, y, listw - 15, itemheight - 4), Color.cornflowerblue, 5);
 
-                spritebatch.drawstring(_smallfont, entry.name, new vector2(listx + 10, y + 5), color.white);
+                SpriteBatch.drawstring(_smallfont, entry.name, new Vector2(listx + 10, y + 5), Color.white);
             }
 
             // 右侧详情
             var detailx = 270;
             var detaily = 150;
             var detailw = w - 320;
-            primitives2d.fillrectangle(spritebatch, new rectangle(detailx, detaily, detailw, listh), color.darkblue * 0.8f, 10);
+            primitives2d.fillrectangle(SpriteBatch, new Rectangle(detailx, detaily, detailw, listh), Color.darkblue * 0.8f, 10);
 
             if (bestiaryindex <= list.count && bestiaryindex > 0)
             {
                 var entry = list[bestiaryindex - 1];
-                spritebatch.drawstring(_titlefont, entry.name, new vector2(detailx + 20, detaily + 20), color.white);
-                spritebatch.drawstring(_smallfont, entry.description, new vector2(detailx + 20, detaily + 80), color.lightgray);
+                SpriteBatch.drawstring(_titlefont, entry.name, new Vector2(detailx + 20, detaily + 20), Color.white);
+                SpriteBatch.drawstring(_smallfont, entry.description, new Vector2(detailx + 20, detaily + 80), Color.lightgray);
             }
 
-            spritebatch.drawstring(_smallfont, $"{_loc.get("esc_return")} | ↑/↓: {_loc.get("up_down_scroll")}", new vector2(20, h - 30), color.gray);
+            SpriteBatch.drawstring(_smallfont, $"{_loc.get("esc_return")} | ↑/↓: {_loc.get("up_down_scroll")}", new Vector2(20, h - 30), Color.gray);
         }
 
-        private list<bestiaryentry> getbestiarylist()
+        private List<bestiaryentry> getbestiarylist()
         {
-            var list = new list<bestiaryentry>();
+            var list = new List<bestiaryentry>();
             var data = new bestiarydata();
 
             if (bestiarycategory == "enemies")

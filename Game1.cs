@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,21 +12,21 @@ namespace purge_v0_4_0
 {
     public class game1 : game
     {
-        private graphicsdevicemanager _graphics;
-        private spritebatch _spritebatch;
-        private texture2d _pixel;
-        private spritefont _font;
-        private spritefont _smallfont;
-        private spritefont _titlefont;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spritebatch;
+        private Texture2D _pixel;
+        private SpriteFont _font;
+        private SpriteFont _smallfont;
+        private SpriteFont _titlefont;
 
-        // 核心系统
+        // ????
         private gameconfig _config;
         private settings _settings;
         private localization _loc;
         private datamanager _dataManager;
         private objectpool _objectPool;
 
-        // 游戏系统
+        // ????
         private wavesystem _waveSystem;
         private abilitysystem _abilitySystem;
         private throwablesystem _throwableSystem;
@@ -35,14 +35,14 @@ namespace purge_v0_4_0
         private uimanager _uiManager;
         private menumanager _menuManager;
 
-        // 实体
+        // ??
         private player _player;
-        private list<enemy> _enemies;
-        private list<bullet> _bullets;
-        private list<enemybullet> _enemyBullets;
-        private list<throwablefield> _throwableFields;
+        private List<enemy> _enemies;
+        private List<bullet> _bullets;
+        private List<enemybullet> _enemyBullets;
+        private List<throwablefield> _throwableFields;
 
-        // 游戏状态
+        // ????
         public enum gamestate { menu, difficulty, playing, inventory, bestiary, shop }
         public gamestate currentstate = gamestate.menu;
         public string selecteddifficulty = "easy";
@@ -50,7 +50,7 @@ namespace purge_v0_4_0
         private int _bits = 0;
         private int _maxbits = 0;
 
-        // 地图边界
+        // ????
         private int _mapwidth = 1000;
         private int _mapheight = 1000;
         private float _mapminx = -500f;
@@ -58,29 +58,29 @@ namespace purge_v0_4_0
         private float _mapminy = -500f;
         private float _mapmaxy = 500f;
         private bool _mapexpanded = false;
-        private rectangle _obstacle;
+        private Rectangle _obstacle;
 
-        // 输入
-        private keyboardstate _prevkeyboard;
-        private mousestate _prevmouse;
+        // ??
+        private KeyboardState _prevkeyboard;
+        private MouseState _prevmouse;
 
-        // 战斗
+        // ??
         private float _currentcooldown = 0f;
         private float _currentangle = 0f;
         private float _staminatimer = 0f;
         private float _recoverydelaytimer = 0f;
         private bool _canrecover = true;
 
-        // 残影
-        private list<trail> _trails = new list<trail>();
+        // ??
+        private List<trail> _trails = new List<trail>();
 
-        // 性能
+        // ??
         private float _lastautoshot = 0f;
         private float _frametime = 0f;
 
         public game1()
         {
-            _graphics = new graphicsdevicemanager(this);
+            _graphics = new GraphicsDeviceManager(this);
             content.rootdirectory = "content";
             ismousevisible = true;
             window.allouserresizing = true;
@@ -92,18 +92,18 @@ namespace purge_v0_4_0
             _graphics.preferredbackbufferheight = 600;
             _graphics.applychanges();
 
-            // 初始化核心系统
+            // ???????
             _config = new gameconfig();
             _settings = new settings();
             _loc = new localization();
             _dataManager = new datamanager();
             _objectPool = new objectpool(_config);
 
-            // 加载设置
+            // ????
             _settings.load();
             _loc.load(_settings.language);
 
-            // 初始化游戏系统
+            // ???????
             _waveSystem = new wavesystem(this);
             _abilitySystem = new abilitysystem(this);
             _throwableSystem = new throwablesystem(this);
@@ -112,22 +112,22 @@ namespace purge_v0_4_0
             _uiManager = new uimanager(this);
             _menuManager = new menumanager(this);
 
-            // 初始化实体列表
-            _enemies = new list<enemy>();
-            _bullets = new list<bullet>();
-            _enemyBullets = new list<enemybullet>();
-            _throwableFields = new list<throwablefield>();
+            // ???????
+            _enemies = new List<enemy>();
+            _bullets = new List<bullet>();
+            _enemyBullets = new List<enemybullet>();
+            _throwableFields = new List<throwablefield>();
 
-            // 初始化障碍物
-            _obstacle = new rectangle(-150, -150, 300, 300);
+            // ??????
+            _obstacle = new Rectangle(-150, -150, 300, 300);
 
-            // 初始化玩家
+            // ?????
             _player = new player(_config);
 
-            // 加载数据
+            // ????
             _dataManager.load(_player, ref _maxbits);
 
-            // 应用模组
+            // ????
             _player.applymods();
             _abilitySystem.applypassiveeffects(_player);
 
@@ -136,75 +136,75 @@ namespace purge_v0_4_0
 
         protected override void loadcontent()
         {
-            _spritebatch = new spritebatch(graphicsdevice);
-            _pixel = new texture2d(graphicsdevice, 1, 1);
-            _pixel.setdata(new[] { color.white });
+            _spritebatch = new SpriteBatch(graphicsdevice);
+            _pixel = new Texture2D(graphicsdevice, 1, 1);
+            _pixel.setdata(new[] { Color.white });
 
             primitives2d.init(graphicsdevice);
 
-            // 创建简单字体
-            var fontcolor = new[] { color.white };
-            var fonttex = new texture2d(graphicsdevice, 256, 256);
-            _font = spritefont.default;
-            _smallfont = spritefont.default;
-            _titlefont = spritefont.default;
+            // ??????
+            var fontcolor = new[] { Color.white };
+            var fonttex = new Texture2D(graphicsdevice, 256, 256);
+            _font = SpriteFont.default;
+            _smallfont = SpriteFont.default;
+            _titlefont = SpriteFont.default;
         }
 
-        protected override void update(gametime gametime)
+        protected override void update(GameTime GameTime)
         {
-            var dt = (float)gametime.elapsedgametime.totalseconds;
+            var dt = (float)GameTime.elapsedgametime.totalseconds;
             _frametime = dt;
             var keyboard = keyboard.getstate();
-            var mouse = mousestate.getstate();
+            var mouse = MouseState.getstate();
 
-            // 全局ESC处理
-            if (keyboard.iskeydown(keys.escape) && !_prevkeyboard.iskeydown(keys.escape))
+            // ??ESC??
+            if (keyboard.iskeydown(Keys.escape) && !_prevkeyboard.iskeydown(Keys.escape))
             {
                 handleescape();
             }
 
-            // 全局M键处理（游戏中返回菜单）
+            // ??M???(???????)
             if (currentstate == gamestate.playing && !paused && !_player.isdead)
             {
-                if (keyboard.iskeydown(keys.m) && !_prevkeyboard.iskeydown(keys.m))
+                if (keyboard.iskeydown(Keys.m) && !_prevkeyboard.iskeydown(Keys.m))
                 {
                     currentstate = gamestate.menu;
                 }
             }
 
-            // 全局R键处理（换弹）
+            // ??R???(??)
             if (currentstate == gamestate.playing && !paused && !_player.isdead)
             {
-                if (keyboard.iskeydown(keys.r) && !_prevkeyboard.iskeydown(keys.r))
+                if (keyboard.iskeydown(Keys.r) && !_prevkeyboard.iskeydown(Keys.r))
                 {
                     reloadweapon();
                 }
             }
 
-            // 数字键切换武器
+            // ???????
             if (currentstate == gamestate.playing && !paused && !_player.isdead)
             {
                 for (int i = 1; i <= 4; i++)
                 {
-                    var key = (keys)((int)keys.d1 + i - 1);
+                    var key = (Keys)((int)Keys.d1 + i - 1);
                     if (keyboard.iskeydown(key) && !_prevkeyboard.iskeydown(key))
                     {
                         switchweapon(i - 1);
                     }
                 }
 
-                // 投掷物按键 5-7
+                // ????? 5-7
                 for (int i = 5; i <= 7; i++)
                 {
-                    var key = (keys)((int)keys.d5 + i - 5);
+                    var key = (Keys)((int)Keys.d5 + i - 5);
                     if (keyboard.iskeydown(key) && !_prevkeyboard.iskeydown(key))
                     {
                         usethrowable(i - 5);
                     }
                 }
 
-                // 技能按键 Q/E/Z/X
-                var skillkeys = new[] { keys.q, keys.e, keys.z, keys.x };
+                // ???? Q/E/Z/X
+                var skillkeys = new[] { Keys.q, Keys.e, Keys.z, Keys.x };
                 for (int i = 0; i < skillkeys.length; i++)
                 {
                     if (keyboard.iskeydown(skillkeys[i]) && !_prevkeyboard.iskeydown(skillkeys[i]))
@@ -213,17 +213,17 @@ namespace purge_v0_4_0
                     }
                 }
 
-                // 相位信标提前触发 (7键已在上面处理，特殊处理7键触发信标)
-                if (keyboard.iskeydown(keys.d7) && !_prevkeyboard.iskeydown(keys.d7))
+                // ???????? (7???????,????7?????)
+                if (keyboard.iskeydown(Keys.d7) && !_prevkeyboard.iskeydown(Keys.d7))
                 {
                     _throwableSystem.trytriggerbeacon();
                 }
             }
 
-            // 游戏结束重启
+            // ??????
             if (currentstate == gamestate.playing && _player.isdead)
             {
-                if (keyboard.iskeydown(keys.x) && !_prevkeyboard.iskeydown(keys.x))
+                if (keyboard.iskeydown(Keys.x) && !_prevkeyboard.iskeydown(Keys.x))
                 {
                     restartgame();
                 }
@@ -258,16 +258,16 @@ namespace purge_v0_4_0
                     break;
             }
 
-            // 更新UI平滑条
+            // ??UI???
             _uiManager.updatebars(_player);
 
             _prevkeyboard = keyboard;
             _prevmouse = mouse;
 
-            base.update(gametime);
+            base.update(GameTime);
         }
 
-        private void updatemenu(mousestate mouse)
+        private void updatemenu(MouseState mouse)
         {
             var w = graphicsdevice.viewport.width;
             var h = graphicsdevice.viewport.height;
@@ -283,7 +283,7 @@ namespace purge_v0_4_0
                 new { text = _loc.get("shop"), y = starty + 210, x = (w - bw) / 2 }
             };
 
-            if (mouse.leftbutton == buttonstate.pressed && _prevmouse.leftbutton == buttonstate.released)
+            if (mouse.leftbutton == ButtonState.pressed && _prevmouse.leftbutton == ButtonState.released)
             {
                 for (int i = 0; i < buttons.length; i++)
                 {
@@ -299,7 +299,7 @@ namespace purge_v0_4_0
             }
         }
 
-        private void updatedifficulty(mousestate mouse)
+        private void updatedifficulty(MouseState mouse)
         {
             var w = graphicsdevice.viewport.width;
             var h = graphicsdevice.viewport.height;
@@ -316,7 +316,7 @@ namespace purge_v0_4_0
                 new { text = "bossrush", y = starty + 240, x = (w - bw) / 2 }
             };
 
-            if (mouse.leftbutton == buttonstate.pressed && _prevmouse.leftbutton == buttonstate.released)
+            if (mouse.leftbutton == ButtonState.pressed && _prevmouse.leftbutton == ButtonState.released)
             {
                 for (int i = 0; i < difficulties.length; i++)
                 {
@@ -330,16 +330,16 @@ namespace purge_v0_4_0
             }
         }
 
-        private void updatepause(mousestate mouse)
+        private void updatepause(MouseState mouse)
         {
             var w = graphicsdevice.viewport.width;
             var h = graphicsdevice.viewport.height;
 
-            var resume = new rectangle(w / 2 - 50, h / 2 - 20, 100, 30);
-            var menu = new rectangle(w / 2 - 70, h / 2 + 20, 140, 30);
-            var quitgame = new rectangle(w / 2 - 40, h / 2 + 60, 80, 30);
+            var resume = new Rectangle(w / 2 - 50, h / 2 - 20, 100, 30);
+            var menu = new Rectangle(w / 2 - 70, h / 2 + 20, 140, 30);
+            var quitgame = new Rectangle(w / 2 - 40, h / 2 + 60, 80, 30);
 
-            if (mouse.leftbutton == buttonstate.pressed && _prevmouse.leftbutton == buttonstate.released)
+            if (mouse.leftbutton == ButtonState.pressed && _prevmouse.leftbutton == ButtonState.released)
             {
                 if (resume.contains(mouse.x, mouse.y)) paused = false;
                 else if (menu.contains(mouse.x, mouse.y)) { currentstate = gamestate.menu; paused = false; }
@@ -347,7 +347,7 @@ namespace purge_v0_4_0
             }
         }
 
-        private void updategameplaying(float dt, keyboardstate keyboard, mousestate mouse)
+        private void updategameplaying(float dt, KeyboardState keyboard, MouseState mouse)
         {
             if (_player.health <= 0 && !_player.isdead)
             {
@@ -365,31 +365,31 @@ namespace purge_v0_4_0
                 return;
             }
 
-            // 扩展地图
+            // ????
             if (_waveSystem.currentwave >= 30 && !_mapexpanded)
                 expandmap();
 
-            // 激光枪充能
+            // ?????
             if (_player.haslasergun)
             {
-                var currenttime = (float)datetime.now.timeofday.totalseconds;
+                var currenttime = (float)DateTime.now.timeofday.totalseconds;
                 if (currenttime - _player.lastlasershottime > 4f)
                 {
                     _player.laserguncharge = math.min(_player.maxlaserguncharge, _player.laserguncharge + 10 * dt);
                 }
             }
 
-            // 玩家移动
-            var move = vector2.zero;
-            if (keyboard.iskeydown(keys.w)) move.y -= 1;
-            if (keyboard.iskeydown(keys.s)) move.y += 1;
-            if (keyboard.iskeydown(keys.a)) move.x -= 1;
-            if (keyboard.iskeydown(keys.d)) move.x += 1;
-            if (move != vector2.zero) move.normalize();
+            // ????
+            var move = Vector2.zero;
+            if (keyboard.iskeydown(Keys.w)) move.y -= 1;
+            if (keyboard.iskeydown(Keys.s)) move.y += 1;
+            if (keyboard.iskeydown(Keys.a)) move.x -= 1;
+            if (keyboard.iskeydown(Keys.d)) move.x += 1;
+            if (move != Vector2.zero) move.normalize();
 
-            // 体力系统
-            var shiftpressed = keyboard.iskeydown(keys.leftshift);
-            var moving = move != vector2.zero;
+            // ????
+            var shiftpressed = keyboard.iskeydown(Keys.leftshift);
+            var moving = move != Vector2.zero;
 
             if (_player.hasconstantmotion)
             {
@@ -436,28 +436,28 @@ namespace purge_v0_4_0
             _player.position += move * _player.speed * dt;
             clampplayer();
 
-            // 鼠标瞄准
+            // ????
             if (_player.weapontype != "lasergun")
             {
-                var cameraworld = _player.center - new vector2(graphicsdevice.viewport.width / 2, graphicsdevice.viewport.height / 2);
-                var worldmouse = new vector2(mouse.x, mouse.y) + cameraworld;
+                var cameraworld = _player.center - new Vector2(graphicsdevice.viewport.width / 2, graphicsdevice.viewport.height / 2);
+                var worldmouse = new Vector2(mouse.x, mouse.y) + cameraworld;
                 var dx = worldmouse.x - _player.center.x;
                 var dy = worldmouse.y - _player.center.y;
                 _currentangle = (float)math.atan2(dy, dx);
             }
 
-            // 射击
-            if (mouse.leftbutton == buttonstate.pressed && _player.weaponequipped)
+            // ??
+            if (mouse.leftbutton == ButtonState.pressed && _player.weaponequipped)
             {
                 shootweapon();
             }
 
-            // 更新残影
+            // ????
             if (_player.speed == _player.runspeed && !_player.hasconstantmotion && moving && shiftpressed)
             {
-                if (datetime.now.timeofday.totalseconds - _lastautoshot > 0.1f)
+                if (DateTime.now.timeofday.totalseconds - _lastautoshot > 0.1f)
                 {
-                    _lastautoshot = (float)datetime.now.timeofday.totalseconds;
+                    _lastautoshot = (float)DateTime.now.timeofday.totalseconds;
                     _trails.add(new trail { position = _player.position, imer = 0, maximer = 1f });
                 }
             }
@@ -469,7 +469,7 @@ namespace purge_v0_4_0
                     _trails.removeat(i);
             }
 
-            // 更新系统
+            // ????
             updateweaponreload(dt);
             _waveSystem.update(dt, _enemies, ref _enemyBullets);
             updatebullets(dt);
@@ -558,9 +558,9 @@ namespace purge_v0_4_0
                 var bullet = _objectPool.getbullet();
                 if (bullet != null)
                 {
-                    var dir = new vector2((float)math.cos(_currentangle), (float)math.sin(_currentangle));
+                    var dir = new Vector2((float)math.cos(_currentangle), (float)math.sin(_currentangle));
                     var pos = _player.center + dir * weapon.distance * 1.5f;
-                    bullet.initialize(pos, dir, weapon.bulletspeed, weapon.damage, weapon.bulletsize, weapon.color, weapon.pierce, weapon.maxpierce);
+                    bullet.initialize(pos, dir, weapon.bulletspeed, weapon.damage, weapon.bulletsize, weapon.Color, weapon.pierce, weapon.maxpierce);
                     bullet.sourceweapon = "soulreaper";
                     _bullets.add(bullet);
                 }
@@ -570,23 +570,23 @@ namespace purge_v0_4_0
                 if (_player.laserguncharge < 1) return;
                 _player.laserguncharge -= 1;
                 _currentcooldown = weapon.cooldownmax;
-                _player.lastlasershottime = (float)datetime.now.timeofday.totalseconds;
+                _player.lastlasershottime = (float)DateTime.now.timeofday.totalseconds;
 
-                var mouse = mousestate.getstate();
-                var cameraworld = _player.center - new vector2(graphicsdevice.viewport.width / 2, graphicsdevice.viewport.height / 2);
-                var worldmouse = new vector2(mouse.x, mouse.y) + cameraworld;
+                var mouse = MouseState.getstate();
+                var cameraworld = _player.center - new Vector2(graphicsdevice.viewport.width / 2, graphicsdevice.viewport.height / 2);
+                var worldmouse = new Vector2(mouse.x, mouse.y) + cameraworld;
                 var direction = worldmouse - _player.center;
-                if (direction != vector2.zero) direction.normalize();
+                if (direction != Vector2.zero) direction.normalize();
 
                 for (int i = _enemies.count - 1; i >= 0; i--)
                 {
                     var e = _enemies[i];
                     var toenemy = e.center - _player.center;
-                    var t = vector2.dot(toenemy, direction);
+                    var t = Vector2.dot(toenemy, direction);
                     if (t > 0 && t < 1000)
                     {
                         var proj = _player.center + direction * t;
-                        var perpdist = vector2.distance(e.center, proj);
+                        var perpdist = Vector2.distance(e.center, proj);
                         if (perpdist <= 20)
                         {
                             var damage = weapon.damage;
@@ -608,9 +608,9 @@ namespace purge_v0_4_0
                 var bullet = _objectPool.getfeastbullet();
                 if (bullet != null)
                 {
-                    var dir = new vector2((float)math.cos(_currentangle), (float)math.sin(_currentangle));
+                    var dir = new Vector2((float)math.cos(_currentangle), (float)math.sin(_currentangle));
                     var pos = _player.center + dir * weapon.distance * 1.5f;
-                    bullet.initialize(pos, dir, weapon.bulletspeed, weapon.damage, weapon.bulletsize, weapon.color,
+                    bullet.initialize(pos, dir, weapon.bulletspeed, weapon.damage, weapon.bulletsize, weapon.Color,
                         weapon.feastduration, weapon.feastradius, weapon.feastdamagepersecond, weapon.feastexplosiondamage);
                     _bullets.add(bullet);
                 }
@@ -626,10 +626,10 @@ namespace purge_v0_4_0
                     var bullet = _objectPool.getbullet();
                     if (bullet != null)
                     {
-                        var dir = new vector2((float)math.cos(_currentangle), (float)math.sin(_currentangle));
+                        var dir = new Vector2((float)math.cos(_currentangle), (float)math.sin(_currentangle));
                         var pos = _player.center + dir * weapon.distance * 1.5f;
                         var damage = weapon.damage + _player.lifedraindamagebonus;
-                        bullet.initialize(pos, dir, weapon.bulletspeed, damage, weapon.bulletsize, weapon.color, false, 0);
+                        bullet.initialize(pos, dir, weapon.bulletspeed, damage, weapon.bulletsize, weapon.Color, false, 0);
                         bullet.sourceweapon = "lifedrain";
                         _bullets.add(bullet);
                     }
@@ -644,9 +644,9 @@ namespace purge_v0_4_0
                 var bullet = _objectPool.getbullet();
                 if (bullet != null)
                 {
-                    var dir = new vector2((float)math.cos(_currentangle), (float)math.sin(_currentangle));
+                    var dir = new Vector2((float)math.cos(_currentangle), (float)math.sin(_currentangle));
                     var pos = _player.center + dir * weapon.distance * 1.5f;
-                    bullet.initialize(pos, dir, weapon.bulletspeed, weapon.damage, weapon.bulletsize, weapon.color, weapon.pierce, weapon.maxpierce);
+                    bullet.initialize(pos, dir, weapon.bulletspeed, weapon.damage, weapon.bulletsize, weapon.Color, weapon.pierce, weapon.maxpierce);
                     bullet.sourceweapon = _player.weapontype;
                     _bullets.add(bullet);
                 }
@@ -669,7 +669,7 @@ namespace purge_v0_4_0
                     for (int j = _enemies.count - 1; j >= 0; j--)
                     {
                         var e = _enemies[j];
-                        if (vector2.distance(e.center, explosionpos) < explosionradius)
+                        if (Vector2.distance(e.center, explosionpos) < explosionradius)
                         {
                             e.takedamage(explosiondamage);
                             if (e.health <= 0)
@@ -706,7 +706,7 @@ namespace purge_v0_4_0
                 for (int j = _enemies.count - 1; j >= 0; j--)
                 {
                     var e = _enemies[j];
-                    if (vector2.distance(b.position, e.center) <= e.size / 2 + b.size)
+                    if (Vector2.distance(b.position, e.center) <= e.size / 2 + b.size)
                     {
                         if (b.hitenemies.contains(j)) continue;
 
@@ -766,7 +766,7 @@ namespace purge_v0_4_0
                 var b = _enemyBullets[i];
                 b.update(dt, _player.center);
 
-                if (vector2.distance(b.position, _player.center) < 15)
+                if (Vector2.distance(b.position, _player.center) < 15)
                 {
                     _player.takedamage(b.damage);
                     _enemyBullets.removeat(i);
@@ -813,11 +813,11 @@ namespace purge_v0_4_0
 
         private void usethrowable(int slot)
         {
-            var mouse = mousestate.getstate();
-            var cameraworld = _player.center - new vector2(graphicsdevice.viewport.width / 2, graphicsdevice.viewport.height / 2);
-            var worldmouse = new vector2(mouse.x, mouse.y) + cameraworld;
+            var mouse = MouseState.getstate();
+            var cameraworld = _player.center - new Vector2(graphicsdevice.viewport.width / 2, graphicsdevice.viewport.height / 2);
+            var worldmouse = new Vector2(mouse.x, mouse.y) + cameraworld;
             var dir = worldmouse - _player.center;
-            if (dir != vector2.zero) dir.normalize();
+            if (dir != Vector2.zero) dir.normalize();
             var target = _player.center + dir * 300;
 
             target.x = math.clamp(target.x, _mapminx + 20, _mapmaxx - 20);
@@ -874,10 +874,10 @@ namespace purge_v0_4_0
                     for (int i = 0; i < _enemies.count; i++)
                     {
                         var e = _enemies[i];
-                        if (vector2.distance(e.center, center) < 40)
+                        if (Vector2.distance(e.center, center) < 40)
                         {
                             var dir = e.center - center;
-                            if (dir != vector2.zero) dir.normalize();
+                            if (dir != Vector2.zero) dir.normalize();
                             e.position += dir * 100;
                             e.stunned = true;
                             e.stunimer = 1.5f;
@@ -964,7 +964,7 @@ namespace purge_v0_4_0
             _mapmaxx = 875;
             _mapminy = -875;
             _mapmaxy = 875;
-            _player.position = new vector2(0, 250);
+            _player.position = new Vector2(0, 250);
             _mapexpanded = true;
         }
 
@@ -1023,9 +1023,9 @@ namespace purge_v0_4_0
             _bits += amount;
         }
 
-        protected override void draw(gametime gametime)
+        protected override void draw(GameTime GameTime)
         {
-            graphicsdevice.clear(color.black);
+            graphicsdevice.clear(Color.black);
 
             _spritebatch.begin();
 
@@ -1054,7 +1054,7 @@ namespace purge_v0_4_0
 
             _spritebatch.end();
 
-            base.draw(gametime);
+            base.draw(GameTime);
         }
 
         private void drawmenu()
@@ -1067,7 +1067,7 @@ namespace purge_v0_4_0
 
             var title = "purge";
             var titlesize = _titlefont.measurestring(title);
-            _spritebatch.drawstring(_titlefont, title, new vector2(w / 2 - titlesize.x / 2, 100), color.white);
+            _spritebatch.drawstring(_titlefont, title, new Vector2(w / 2 - titlesize.x / 2, 100), Color.white);
 
             var buttons = new[]
             {
@@ -1080,11 +1080,11 @@ namespace purge_v0_4_0
             foreach (var btn in buttons)
             {
                 var x = (w - bw) / 2;
-                primitives2d.fillrectangle(_spritebatch, new rectangle(x, btn.y, bw, bh), color.cornflowerblue, 10);
-                _spritebatch.drawstring(_font, btn.text, new vector2(x + bw / 2 - _font.measurestring(btn.text).x / 2, btn.y + 12), color.white);
+                primitives2d.fillrectangle(_spritebatch, new Rectangle(x, btn.y, bw, bh), Color.cornflowerblue, 10);
+                _spritebatch.drawstring(_font, btn.text, new Vector2(x + bw / 2 - _font.measurestring(btn.text).x / 2, btn.y + 12), Color.white);
             }
 
-            _spritebatch.drawstring(_smallfont, $"{_loc.get("bits")}: {_maxbits}", new vector2(10, 10), color.yellow);
+            _spritebatch.drawstring(_smallfont, $"{_loc.get("bits")}: {_maxbits}", new Vector2(10, 10), Color.yellow);
         }
 
         private void drawdifficulty()
@@ -1097,7 +1097,7 @@ namespace purge_v0_4_0
 
             var title = _loc.get("select_difficulty");
             var titlesize = _titlefont.measurestring(title);
-            _spritebatch.drawstring(_titlefont, title, new vector2(w / 2 - titlesize.x / 2, 100), color.white);
+            _spritebatch.drawstring(_titlefont, title, new Vector2(w / 2 - titlesize.x / 2, 100), Color.white);
 
             var difficulties = new[]
             {
@@ -1111,11 +1111,11 @@ namespace purge_v0_4_0
             foreach (var d in difficulties)
             {
                 var x = (w - bw) / 2;
-                primitives2d.fillrectangle(_spritebatch, new rectangle(x, d.y, bw, bh), color.cornflowerblue, 10);
-                _spritebatch.drawstring(_font, d.text, new vector2(x + bw / 2 - _font.measurestring(d.text).x / 2, d.y + 12), color.white);
+                primitives2d.fillrectangle(_spritebatch, new Rectangle(x, d.y, bw, bh), Color.cornflowerblue, 10);
+                _spritebatch.drawstring(_font, d.text, new Vector2(x + bw / 2 - _font.measurestring(d.text).x / 2, d.y + 12), Color.white);
             }
 
-            _spritebatch.drawstring(_smallfont, _loc.get("press_esc_return"), new vector2(10, h - 30), color.lightgray);
+            _spritebatch.drawstring(_smallfont, _loc.get("press_esc_return"), new Vector2(10, h - 30), Color.lightgray);
         }
 
         private void drawpausemenu()
@@ -1125,7 +1125,7 @@ namespace purge_v0_4_0
 
             var title = _loc.get("paused");
             var titlesize = _titlefont.measurestring(title);
-            _spritebatch.drawstring(_titlefont, title, new vector2(w / 2 - titlesize.x / 2, h / 2 - 100), color.white);
+            _spritebatch.drawstring(_titlefont, title, new Vector2(w / 2 - titlesize.x / 2, h / 2 - 100), Color.white);
 
             var items = new[]
             {
@@ -1138,49 +1138,49 @@ namespace purge_v0_4_0
             {
                 var size = _font.measurestring(item.text);
                 var x = (w - size.x) / 2;
-                _spritebatch.drawstring(_font, item.text, new vector2(x, item.y), color.white);
+                _spritebatch.drawstring(_font, item.text, new Vector2(x, item.y), Color.white);
             }
         }
 
         private void drawgameplaying()
         {
-            // 世界坐标变换
-            var camerapos = _player.center - new vector2(graphicsdevice.viewport.width / 2, graphicsdevice.viewport.height / 2);
+            // ??????
+            var camerapos = _player.center - new Vector2(graphicsdevice.viewport.width / 2, graphicsdevice.viewport.height / 2);
             var transform = matrix.createtranslation(-camerapos.x, -camerapos.y, 0);
             _spritebatch.end();
             _spritebatch.begin(transformmatrix: transform);
 
-            // 地图边界
-            primitives2d.drawrectangle(_spritebatch, new rectangle((int)_mapminx, (int)_mapminy, _mapwidth, _mapheight), color.white * 0.3f, 2);
+            // ????
+            primitives2d.drawrectangle(_spritebatch, new Rectangle((int)_mapminx, (int)_mapminy, _mapwidth, _mapheight), Color.white * 0.3f, 2);
 
             if (_mapexpanded)
             {
-                primitives2d.fillrectangle(_spritebatch, _obstacle, color.gray * 0.5f);
-                primitives2d.drawrectangle(_spritebatch, _obstacle, color.white, 2);
+                primitives2d.fillrectangle(_spritebatch, _obstacle, Color.gray * 0.5f);
+                primitives2d.drawrectangle(_spritebatch, _obstacle, Color.white, 2);
             }
 
-            // 子弹
+            // ??
             foreach (var b in _bullets)
                 b.draw(_spritebatch, _pixel);
             foreach (var b in _enemyBullets)
                 b.draw(_spritebatch, _pixel);
 
-            // 敌人
+            // ??
             foreach (var e in _enemies)
                 e.draw(_spritebatch, _pixel, _pixel);
 
-            // 投掷物效果
+            // ?????
             foreach (var f in _throwableFields)
                 f.draw(_spritebatch, _pixel);
 
-            // 残影
+            // ??
             foreach (var t in _trails)
             {
                 var alpha = 1 - t.imer / t.maximer;
-                primitives2d.drawrectangle(_spritebatch, new rectangle((int)t.position.x, (int)t.position.y, 20, 20), color.white * alpha, 2);
+                primitives2d.drawrectangle(_spritebatch, new Rectangle((int)t.position.x, (int)t.position.y, 20, 20), Color.white * alpha, 2);
             }
 
-            // 玩家
+            // ??
             _player.draw(_spritebatch, _pixel, _currentangle);
 
             _spritebatch.end();
@@ -1193,18 +1193,18 @@ namespace purge_v0_4_0
             {
                 var text = _loc.get("you_died");
                 var size = _titlefont.measurestring(text);
-                _spritebatch.drawstring(_titlefont, text, new vector2(graphicsdevice.viewport.width / 2 - size.x / 2, graphicsdevice.viewport.height / 2 - 70), color.red);
+                _spritebatch.drawstring(_titlefont, text, new Vector2(graphicsdevice.viewport.width / 2 - size.x / 2, graphicsdevice.viewport.height / 2 - 70), Color.red);
                 text = _loc.get("press_x_restart");
                 size = _font.measurestring(text);
-                _spritebatch.drawstring(_font, text, new vector2(graphicsdevice.viewport.width / 2 - size.x / 2, graphicsdevice.viewport.height / 2 + 10), color.white);
+                _spritebatch.drawstring(_font, text, new Vector2(graphicsdevice.viewport.width / 2 - size.x / 2, graphicsdevice.viewport.height / 2 + 10), Color.white);
             }
 
-            _spritebatch.drawstring(_smallfont, _loc.get("press_m_for_menu"), new vector2(10, graphicsdevice.viewport.height - 30), color.gray);
+            _spritebatch.drawstring(_smallfont, _loc.get("press_m_for_menu"), new Vector2(10, graphicsdevice.viewport.height - 30), Color.gray);
         }
 
-        // 公开属性
-        public graphicsdevicemanager graphicsmanager => _graphics;
-        public spritebatch spritebatch => _spritebatch;
+        // ????
+        public GraphicsDeviceManager graphicsmanager => _graphics;
+        public SpriteBatch SpriteBatch => _spritebatch;
         public gameconfig config => _config;
         public localization localization => _loc;
         public objectpool objectpool => _objectPool;
@@ -1215,17 +1215,17 @@ namespace purge_v0_4_0
         public inventorysystem inventorysystem => _inventorySystem;
         public uimanager uimanager => _uiManager;
         public player player => _player;
-        public list<enemy> enemies => _enemies;
-        public list<bullet> bullets => _bullets;
-        public list<enemybullet> enemybullets => _enemyBullets;
-        public list<throwablefield> throwablefields => _throwableFields;
+        public List<enemy> enemies => _enemies;
+        public List<bullet> bullets => _bullets;
+        public List<enemybullet> enemybullets => _enemyBullets;
+        public List<throwablefield> throwablefields => _throwableFields;
         public int bits { get => _bits; set => _bits = value; }
         public int maxbits { get => _maxbits; set => _maxbits = value; }
         public float currentangle { get => _currentangle; set => _currentangle = value; }
 
         private class trail
         {
-            public vector2 position;
+            public Vector2 position;
             public float imer;
             public float maximer;
         }

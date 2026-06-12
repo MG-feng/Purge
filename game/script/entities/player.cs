@@ -20,7 +20,7 @@ namespace purge_v0_4_0.game.script.entities
         public float reloadtime = 2f;
         public float distance = 15f;
         public float size = 15f;
-        public color color = color.white;
+        public Color Color = Color.white;
         public bool pierce = false;
         public int maxpierce = 0;
         public float feastduration = 5f;
@@ -42,7 +42,7 @@ namespace purge_v0_4_0.game.script.entities
     {
         private gameconfig _config;
 
-        public vector2 position = vector2.zero;
+        public Vector2 position = Vector2.zero;
         public float health = 100f;
         public float maxhealth = 100f;
         public float stamina = 100f;
@@ -59,10 +59,10 @@ namespace purge_v0_4_0.game.script.entities
         public string weapontype = "";
 
         public string[] weaponslots = new string[4];
-        public dictionary<string, weaponstate> weaponstates = new dictionary<string, weaponstate>();
+        public Dictionary<string, weaponstate> weaponstates = new Dictionary<string, weaponstate>();
 
         // 技能相关
-        public hashset<string> ownedskills = new hashset<string>();
+        public HashSet<string> ownedskills = new HashSet<string>();
         public string[] activeskillslots = new string[4];
         public float[] activecooldowns = new float[4];
         public string[] passiveskillslots = new string[2];
@@ -117,7 +117,7 @@ namespace purge_v0_4_0.game.script.entities
         public int[] throwablecharges = new int[3];
         public int[] throwablelastused = new int[3];
 
-        public vector2 center => position + new vector2(10, 10);
+        public Vector2 center => position + new Vector2(10, 10);
 
         public player(gameconfig config)
         {
@@ -139,7 +139,7 @@ namespace purge_v0_4_0.game.script.entities
                 reloadtime = _config.pistol_reloadtime,
                 distance = 15f,
                 size = 15f,
-                color = color.white
+                Color = Color.white
             };
 
             weaponstates["rifle"] = new weaponstate
@@ -154,7 +154,7 @@ namespace purge_v0_4_0.game.script.entities
                 reloadtime = _config.rifle_reloadtime,
                 distance = 20f,
                 size = 20f,
-                color = color.gold
+                Color = Color.gold
             };
 
             weaponstates["sniper"] = new weaponstate
@@ -169,7 +169,7 @@ namespace purge_v0_4_0.game.script.entities
                 reloadtime = _config.sniper_reloadtime,
                 distance = 25f,
                 size = 25f,
-                color = color.skyblue
+                Color = Color.skyblue
             };
 
             weaponstates["soulreaper"] = new weaponstate
@@ -184,7 +184,7 @@ namespace purge_v0_4_0.game.script.entities
                 reloadtime = _config.soulreaper_cooldown,
                 distance = 30f,
                 size = 30f,
-                color = color.purple,
+                Color = Color.purple,
                 pierce = false,
                 maxpierce = 0
             };
@@ -201,7 +201,7 @@ namespace purge_v0_4_0.game.script.entities
                 reloadtime = 0f,
                 distance = 30f,
                 size = 20f,
-                color = color.red
+                Color = Color.red
             };
             maxlaserguncharge = _config.lasergun_maxcharge;
             laserguncharge = maxlaserguncharge;
@@ -218,7 +218,7 @@ namespace purge_v0_4_0.game.script.entities
                 reloadtime = 4f,
                 distance = 30f,
                 size = 35f,
-                color = color.orange,
+                Color = Color.orange,
                 feastduration = _config.feast_duration,
                 feastradius = _config.feast_radius,
                 feastdamagepersecond = _config.feast_dot,
@@ -237,7 +237,7 @@ namespace purge_v0_4_0.game.script.entities
                 reloadtime = _config.lifedrain_reloadtime,
                 distance = 20f,
                 size = 20f,
-                color = color.crimson,
+                Color = Color.crimson,
                 burstcount = 3,
                 burstdelay = _config.lifedrain_burstdelay
             };
@@ -263,7 +263,7 @@ namespace purge_v0_4_0.game.script.entities
 
         public void reset(string difficulty)
         {
-            position = vector2.zero;
+            position = Vector2.zero;
             isdead = false;
             deathtimer = 0;
             blinktimer = 0;
@@ -378,10 +378,10 @@ namespace purge_v0_4_0.game.script.entities
             }
         }
 
-        public void draw(spritebatch spritebatch, texture2d pixel, float angle)
+        public void draw(SpriteBatch SpriteBatch, Texture2D pixel, float angle)
         {
-            var color = isdead ? (blinktimer < 0.1f ? color.darkred * 0.7f : color.white * 0.3f) : color.white;
-            primitives2d.drawrectangle(spritebatch, new rectangle((int)position.x, (int)position.y, 20, 20), color, 2);
+            var Color = isdead ? (blinktimer < 0.1f ? Color.darkred * 0.7f : Color.white * 0.3f) : Color.white;
+            primitives2d.drawrectangle(SpriteBatch, new Rectangle((int)position.x, (int)position.y, 20, 20), Color, 2);
 
             if (weaponequipped && !isdead && weapontype != "lasergun")
             {
@@ -392,13 +392,13 @@ namespace purge_v0_4_0.game.script.entities
                     var wy = position.y + 10 + (float)math.sin(angle) * weapon.distance;
 
                     var matrix = matrix.createtranslation(wx, wy, 0) * matrix.createrotationz(angle);
-                    spritebatch.end();
-                    spritebatch.begin(transformmatrix: matrix);
+                    SpriteBatch.end();
+                    SpriteBatch.begin(transformmatrix: matrix);
 
-                    primitives2d.fillrectangle(spritebatch, new rectangle(0, (int)-weapon.size / 2, (int)weapon.size, (int)weapon.size / 2), weapon.color);
+                    primitives2d.fillrectangle(SpriteBatch, new Rectangle(0, (int)-weapon.size / 2, (int)weapon.size, (int)weapon.size / 2), weapon.Color);
 
-                    spritebatch.end();
-                    spritebatch.begin();
+                    SpriteBatch.end();
+                    SpriteBatch.begin();
                 }
             }
         }

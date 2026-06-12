@@ -21,7 +21,7 @@ namespace purge_v0_4_0.game.script.systems
         public string mode = "easy";
         public int reward = 0;
 
-        private list<queuedenemy> _spawnqueue = new list<queuedenemy>();
+        private List<queuedenemy> _spawnqueue = new List<queuedenemy>();
 
         public wavesystem(game1 game)
         {
@@ -60,7 +60,7 @@ namespace purge_v0_4_0.game.script.systems
             system.console.writeline($"=== wave {currentwave}{(isbosswave ? " boss" : "")} start ===");
         }
 
-        public void update(float dt, list<enemy> enemies, ref list<enemybullet> enemybullets)
+        public void update(float dt, List<enemy> enemies, ref List<enemybullet> enemybullets)
         {
             // 处理生成队列
             for (int i = _spawnqueue.count - 1; i >= 0; i--)
@@ -107,7 +107,7 @@ namespace purge_v0_4_0.game.script.systems
             }
         }
 
-        private void updateenemyai(enemy e, float dt, list<enemy> enemies, list<enemybullet> enemybullets)
+        private void updateenemyai(enemy e, float dt, List<enemy> enemies, List<enemybullet> enemybullets)
         {
             var playercenter = _game.player.center;
 
@@ -131,7 +131,7 @@ namespace purge_v0_4_0.game.script.systems
                     e.healtimer = 0;
                     foreach (var other in enemies)
                     {
-                        if (other != e && vector2.distance(other.center, e.center) < e.healradius)
+                        if (other != e && Vector2.distance(other.center, e.center) < e.healradius)
                         {
                             other.health = math.min(other.maxhealth, other.health + e.healamount);
                         }
@@ -159,7 +159,7 @@ namespace purge_v0_4_0.game.script.systems
                     e.phasetimer = 0;
                     e.phaseshift = !e.phaseshift;
                     e.invulnerable = e.phaseshift;
-                    e.color = e.phaseshift ? color.purple * 0.3f : color.purple;
+                    e.Color = e.phaseshift ? Color.purple * 0.3f : Color.purple;
                 }
             }
 
@@ -167,29 +167,29 @@ namespace purge_v0_4_0.game.script.systems
             if (!e.stunned && !e.invulnerable)
             {
                 var dir = playercenter - e.center;
-                if (dir != vector2.zero)
+                if (dir != Vector2.zero)
                     dir.normalize();
                 e.position += dir * e.speed * dt;
             }
 
             // 接触伤害
-            if (vector2.distance(e.center, playercenter) < 20 && e.damage > 0)
+            if (Vector2.distance(e.center, playercenter) < 20 && e.damage > 0)
             {
                 _game.player.takedamage(e.damage);
             }
         }
 
-        private void shootenemybullet(enemy e, list<enemybullet> enemybullets)
+        private void shootenemybullet(enemy e, List<enemybullet> enemybullets)
         {
             var bullet = new enemybullet();
             var dir = _game.player.center - e.center;
-            if (dir != vector2.zero)
+            if (dir != Vector2.zero)
                 dir.normalize();
             bullet.initialize(e.center, dir, e.bulletspeed, e.bulletdamage, e.bulletsize, e.bulletcolor);
             enemybullets.add(bullet);
         }
 
-        private void spawnenemy(string enemytype, list<enemy> enemies)
+        private void spawnenemy(string enemytype, List<enemy> enemies)
         {
             var mult = _config.getdifficultymultiplier(mode);
             var screenw = _game.graphicsdevice.viewport.width;
@@ -256,19 +256,19 @@ namespace purge_v0_4_0.game.script.systems
             // 简化版波次配置 - 完整版应从配置加载
             if (mode == "easy")
             {
-                if (wave == 1) return new waveconfig { enemies = new list<(string type, int count)> { ("basic", 4) }, reward = 25 };
-                if (wave == 2) return new waveconfig { enemies = new list<(string, int)> { ("basic", 5), ("fast", 1) }, reward = 25 };
-                if (wave == 10) return new waveconfig { enemies = new list<(string, int)> { ("boss_easy", 1) }, reward = 100 };
+                if (wave == 1) return new waveconfig { enemies = new List<(string type, int count)> { ("basic", 4) }, reward = 25 };
+                if (wave == 2) return new waveconfig { enemies = new List<(string, int)> { ("basic", 5), ("fast", 1) }, reward = 25 };
+                if (wave == 10) return new waveconfig { enemies = new List<(string, int)> { ("boss_easy", 1) }, reward = 100 };
             }
             else if (mode == "medium")
             {
-                if (wave == 1) return new waveconfig { enemies = new list<(string, int)> { ("basic", 5), ("fast", 2) }, reward = 30 };
-                if (wave == 15) return new waveconfig { enemies = new list<(string, int)> { ("boss_medium", 1), ("fast", 5) }, reward = 200 };
+                if (wave == 1) return new waveconfig { enemies = new List<(string, int)> { ("basic", 5), ("fast", 2) }, reward = 30 };
+                if (wave == 15) return new waveconfig { enemies = new List<(string, int)> { ("boss_medium", 1), ("fast", 5) }, reward = 200 };
             }
             else if (mode == "hard")
             {
-                if (wave == 1) return new waveconfig { enemies = new list<(string, int)> { ("basic", 5), ("fast", 3) }, reward = 40 };
-                if (wave == 20) return new waveconfig { enemies = new list<(string, int)> { ("boss_hard", 1), ("fast", 5), ("tank", 10) }, reward = 400 };
+                if (wave == 1) return new waveconfig { enemies = new List<(string, int)> { ("basic", 5), ("fast", 3) }, reward = 40 };
+                if (wave == 20) return new waveconfig { enemies = new List<(string, int)> { ("boss_hard", 1), ("fast", 5), ("tank", 10) }, reward = 400 };
             }
 
             return null;
@@ -287,7 +287,7 @@ namespace purge_v0_4_0.game.script.systems
             };
         }
 
-        public int getremainingenemies(list<enemy> enemies) => enemies.count + _spawnqueue.count;
+        public int getremainingenemies(List<enemy> enemies) => enemies.count + _spawnqueue.count;
 
         private class queuedenemy
         {
@@ -299,7 +299,7 @@ namespace purge_v0_4_0.game.script.systems
 
     public class waveconfig
     {
-        public list<(string type, int count)> enemies = new list<(string, int)>();
+        public List<(string type, int count)> enemies = new List<(string, int)>();
         public int reward = 0;
     }
 }

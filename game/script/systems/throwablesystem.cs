@@ -42,7 +42,7 @@ namespace purge_v0_4_0.game.script.systems
             }
         }
 
-        public bool usethrowable(int slotindex, vector2 target)
+        public bool usethrowable(int slotindex, Vector2 target)
         {
             var player = _game.player;
 
@@ -75,7 +75,7 @@ namespace purge_v0_4_0.game.script.systems
             return true;
         }
 
-        private void creategravityanchor(vector2 position)
+        private void creategravityanchor(Vector2 position)
         {
             var field = _game.objectpool.geteffectfield();
             if (field != null)
@@ -90,12 +90,12 @@ namespace purge_v0_4_0.game.script.systems
             }
         }
 
-        private void createsoulshard(vector2 position)
+        private void createsoulshard(Vector2 position)
         {
             // 造成伤害
             foreach (var enemy in _game.enemies)
             {
-                if (vector2.distance(enemy.center, position) < _config.soulshard_radius)
+                if (Vector2.distance(enemy.center, position) < _config.soulshard_radius)
                 {
                     enemy.takedamage(_config.soulshard_damage);
                 }
@@ -114,7 +114,7 @@ namespace purge_v0_4_0.game.script.systems
             }
         }
 
-        private void createphasebeacon(vector2 position)
+        private void createphasebeacon(Vector2 position)
         {
             var field = _game.objectpool.geteffectfield();
             if (field != null)
@@ -134,7 +134,7 @@ namespace purge_v0_4_0.game.script.systems
                 var field = _game.throwablefields[i];
                 if (field.type == "beacon" && field.active)
                 {
-                    _game.player.position = field.position - new vector2(10, 10);
+                    _game.player.position = field.position - new Vector2(10, 10);
                     _game.throwablefields.removeat(i);
                     _game.objectpool.returneffectfield(field);
                     return true;
@@ -143,7 +143,7 @@ namespace purge_v0_4_0.game.script.systems
             return false;
         }
 
-        public void update(float dt, list<throwablefield> fields, player player, list<enemy> enemies, game1 game)
+        public void update(float dt, List<throwablefield> fields, player player, List<enemy> enemies, game1 game)
         {
             for (int i = fields.count - 1; i >= 0; i--)
             {
@@ -155,7 +155,7 @@ namespace purge_v0_4_0.game.script.systems
                 {
                     foreach (var e in enemies)
                     {
-                        if (vector2.distance(e.center, field.position) < field.radius)
+                        if (Vector2.distance(e.center, field.position) < field.radius)
                         {
                             if (!e.slowed)
                             {
@@ -189,7 +189,7 @@ namespace purge_v0_4_0.game.script.systems
                     else if (field.type == "beacon" && field.imer < field.duration)
                     {
                         // 自动传送
-                        player.position = field.position - new vector2(10, 10);
+                        player.position = field.position - new Vector2(10, 10);
                     }
 
                     fields.removeat(i);
@@ -209,7 +209,7 @@ namespace purge_v0_4_0.game.script.systems
             };
         }
 
-        public void drawui(spritebatch spritebatch, player player)
+        public void drawui(SpriteBatch SpriteBatch, player player)
         {
             // UI绘制在uimanager中实现
         }

@@ -16,7 +16,7 @@ namespace purge_v0_4_0.game.script.systems
             _config = game.config;
         }
 
-        public void update(float dt, player player, list<enemy> enemies)
+        public void update(float dt, player player, List<enemy> enemies)
         {
             // 更新主动技能冷却
             for (int i = 0; i < player.activecooldowns.length; i++)
@@ -48,7 +48,7 @@ namespace purge_v0_4_0.game.script.systems
             }
         }
 
-        public bool useskill(string skillid, player player, list<enemy> enemies, ref int bits)
+        public bool useskill(string skillid, player player, List<enemy> enemies, ref int bits)
         {
             return skillid switch
             {
@@ -71,7 +71,7 @@ namespace purge_v0_4_0.game.script.systems
             return true;
         }
 
-        private bool useharvest(list<enemy> enemies)
+        private bool useharvest(List<enemy> enemies)
         {
             int killcount = 0, damagecount = 0;
 
@@ -110,17 +110,17 @@ namespace purge_v0_4_0.game.script.systems
             return true;
         }
 
-        private bool useforcefield(player player, list<enemy> enemies)
+        private bool useforcefield(player player, List<enemy> enemies)
         {
             int stunnedcount = 0;
             var center = player.center;
 
             foreach (var e in enemies)
             {
-                if (vector2.distance(e.center, center) < _config.forcefield_radius)
+                if (Vector2.distance(e.center, center) < _config.forcefield_radius)
                 {
                     var dir = e.center - center;
-                    if (dir != vector2.zero)
+                    if (dir != Vector2.zero)
                     {
                         dir.normalize();
                         e.position += dir * _config.forcefield_pushforce;
@@ -138,7 +138,7 @@ namespace purge_v0_4_0.game.script.systems
             return true;
         }
 
-        private bool usedegradation(list<enemy> enemies)
+        private bool usedegradation(List<enemy> enemies)
         {
             int convertedcount = 0, bossconverted = 0;
 
@@ -158,7 +158,7 @@ namespace purge_v0_4_0.game.script.systems
                         e.health = math.max(1, (int)(300 * healthpercent));
                         e.damage = 40;
                         e.speed = 70;
-                        e.color = color.purple;
+                        e.Color = Color.purple;
                         bossconverted++;
                         convertedcount++;
                     }
@@ -171,7 +171,7 @@ namespace purge_v0_4_0.game.script.systems
                     e.health = math.max(1, (int)(80 * healthpercent));
                     e.damage = 30;
                     e.speed = 90;
-                    e.color = color.darkred;
+                    e.Color = Color.darkred;
                     convertedcount++;
                 }
             }
@@ -203,7 +203,7 @@ namespace purge_v0_4_0.game.script.systems
             }
         }
 
-        public void drawui(spritebatch spritebatch, player player, texture2d pixel)
+        public void drawui(SpriteBatch SpriteBatch, player player, Texture2D pixel)
         {
             // UI绘制在uimanager中实现
         }

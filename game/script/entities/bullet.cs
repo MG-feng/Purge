@@ -7,31 +7,31 @@ namespace purge_v0_4_0.game.script.entities
 {
     public class bullet
     {
-        public vector2 position = vector2.zero;
-        public vector2 direction = vector2.zero;
+        public Vector2 position = Vector2.zero;
+        public Vector2 direction = Vector2.zero;
         public float speed = 800f;
         public float damage = 10f;
         public float size = 5f;
         public float lifetime = 2f;
-        public color color = color.white;
+        public Color Color = Color.white;
         public string sourceweapon = "";
         public bool pierce = false;
         public int maxpierce = 0;
         public int piercecount = 0;
-        public list<int> hitenemies = new list<int>();
+        public List<int> hitenemies = new List<int>();
 
         public bullet()
         {
         }
 
-        public virtual void initialize(vector2 pos, vector2 dir, float spd, float dmg, float sz, color col, bool piec, int maxpiec)
+        public virtual void initialize(Vector2 pos, Vector2 dir, float spd, float dmg, float sz, Color col, bool piec, int maxpiec)
         {
             position = pos;
             direction = dir;
             speed = spd;
             damage = dmg;
             size = sz;
-            color = col;
+            Color = col;
             pierce = piec;
             maxpierce = maxpiec;
             lifetime = 2f;
@@ -41,8 +41,8 @@ namespace purge_v0_4_0.game.script.entities
 
         public virtual void reset()
         {
-            position = vector2.zero;
-            direction = vector2.zero;
+            position = Vector2.zero;
+            direction = Vector2.zero;
             speed = 800f;
             damage = 10f;
             size = 5f;
@@ -59,9 +59,9 @@ namespace purge_v0_4_0.game.script.entities
             lifetime -= dt;
         }
 
-        public virtual void draw(spritebatch spritebatch, texture2d pixel)
+        public virtual void draw(SpriteBatch SpriteBatch, Texture2D pixel)
         {
-            primitives2d.fillcircle(spritebatch, position, size / 2, 8, color);
+            primitives2d.fillcircle(SpriteBatch, position, size / 2, 8, Color);
         }
     }
 
@@ -74,7 +74,7 @@ namespace purge_v0_4_0.game.script.entities
         public float feastexplosiondamage = 1000f;
         public float damageimer = 0f;
 
-        public void initialize(vector2 pos, vector2 dir, float spd, float dmg, float sz, color col, float duration, float radius, float dot, float expdmg)
+        public void initialize(Vector2 pos, Vector2 dir, float spd, float dmg, float sz, Color col, float duration, float radius, float dot, float expdmg)
         {
             base.initialize(pos, dir, spd, dmg, sz, col, false, 0);
             feastduration = duration;

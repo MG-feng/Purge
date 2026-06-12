@@ -26,14 +26,14 @@ namespace purge_v0_4_0.game.script.systems
             _loc = game.localization;
         }
 
-        public void update(mousestate mouse, mousestate prevmouse, keyboardstate keyboard, keyboardstate prevkeyboard, game1 game)
+        public void update(MouseState mouse, MouseState prevmouse, KeyboardState keyboard, KeyboardState prevkeyboard, game1 game)
         {
             // 绑定处理
             if (!string.isnullorempty(bindingweapon))
             {
                 for (int i = 1; i <= 4; i++)
                 {
-                    if (keyboard.iskeydown((keys)((int)keys.d1 + i - 1)) && !prevkeyboard.iskeydown((keys)((int)keys.d1 + i - 1)))
+                    if (keyboard.iskeydown((Keys)((int)Keys.d1 + i - 1)) && !prevkeyboard.iskeydown((Keys)((int)Keys.d1 + i - 1)))
                     {
                         bindweapon(bindingweapon, i - 1);
                         bindingweapon = null;
@@ -44,10 +44,10 @@ namespace purge_v0_4_0.game.script.systems
 
             if (!string.isnullorempty(bindingskill) && skilltype == "active")
             {
-                var keys = new[] { keys.q, keys.e, keys.z, keys.x };
-                for (int i = 0; i < keys.length; i++)
+                var Keys = new[] { Keys.q, Keys.e, Keys.z, Keys.x };
+                for (int i = 0; i < Keys.length; i++)
                 {
-                    if (keyboard.iskeydown(keys[i]) && !prevkeyboard.iskeydown(keys[i]))
+                    if (keyboard.iskeydown(Keys[i]) && !prevkeyboard.iskeydown(Keys[i]))
                     {
                         bindactiveskill(bindingskill, i);
                         bindingskill = null;
@@ -60,7 +60,7 @@ namespace purge_v0_4_0.game.script.systems
             {
                 for (int i = 5; i <= 7; i++)
                 {
-                    if (keyboard.iskeydown((keys)((int)keys.d5 + i - 5)) && !prevkeyboard.iskeydown((keys)((int)keys.d5 + i - 5)))
+                    if (keyboard.iskeydown((Keys)((int)Keys.d5 + i - 5)) && !prevkeyboard.iskeydown((Keys)((int)Keys.d5 + i - 5)))
                     {
                         bindthrowable(bindingthrowable, i - 5);
                         bindingthrowable = null;
@@ -164,19 +164,19 @@ namespace purge_v0_4_0.game.script.systems
             }
         }
 
-        public list<inventoryitem> getitems()
+        public List<inventoryitem> getitems()
         {
-            var items = new list<inventoryitem>();
+            var items = new List<inventoryitem>();
             var player = _game.player;
 
             if (category == "weapons")
             {
-                if (player.hasrifle) items.add(new inventoryitem { name = "rifle", type = "rifle", icon = "r", color = color.gold, owned = true });
-                if (player.hassniper) items.add(new inventoryitem { name = "sniper", type = "sniper", icon = "s", color = color.skyblue, owned = true });
-                if (player.hassoulreaper) items.add(new inventoryitem { name = "soul reaper", type = "soulreaper", icon = "sr", color = color.purple, owned = true });
-                if (player.haslasergun) items.add(new inventoryitem { name = "laser gun", type = "lasergun", icon = "l", color = color.red, owned = true });
-                if (player.hasfeast) items.add(new inventoryitem { name = "feast", type = "feast", icon = "ft", color = color.orange, owned = true });
-                if (player.haslifedrain) items.add(new inventoryitem { name = "life drain", type = "lifedrain", icon = "ld", color = color.crimson, owned = true });
+                if (player.hasrifle) items.add(new inventoryitem { name = "rifle", type = "rifle", icon = "r", Color = Color.gold, owned = true });
+                if (player.hassniper) items.add(new inventoryitem { name = "sniper", type = "sniper", icon = "s", Color = Color.skyblue, owned = true });
+                if (player.hassoulreaper) items.add(new inventoryitem { name = "soul reaper", type = "soulreaper", icon = "sr", Color = Color.purple, owned = true });
+                if (player.haslasergun) items.add(new inventoryitem { name = "laser gun", type = "lasergun", icon = "l", Color = Color.red, owned = true });
+                if (player.hasfeast) items.add(new inventoryitem { name = "feast", type = "feast", icon = "ft", Color = Color.orange, owned = true });
+                if (player.haslifedrain) items.add(new inventoryitem { name = "life drain", type = "lifedrain", icon = "ld", Color = Color.crimson, owned = true });
             }
             else if (category == "skills")
             {
@@ -196,22 +196,22 @@ namespace purge_v0_4_0.game.script.systems
                         var isactive = id == "heal";
                         if ((skilltype == "active" && isactive) || (skilltype == "passive" && !isactive))
                         {
-                            items.add(new inventoryitem { name = name, type = id, icon = id.substring(0, 2), color = color.white, owned = true, isactive = isactive });
+                            items.add(new inventoryitem { name = name, type = id, icon = id.substring(0, 2), Color = Color.white, owned = true, isactive = isactive });
                         }
                     }
                 }
             }
             else if (category == "throwables")
             {
-                if (player.gravityanchor) items.add(new inventoryitem { name = "gravity anchor", type = "gravityanchor", icon = "ga", color = color.purple, owned = true });
-                if (player.soulshard) items.add(new inventoryitem { name = "soul shard", type = "soulshard", icon = "ss", color = color.magenta, owned = true });
-                if (player.phasebeacon) items.add(new inventoryitem { name = "phase beacon", type = "phasebeacon", icon = "pb", color = color.cyan, owned = true });
+                if (player.gravityanchor) items.add(new inventoryitem { name = "gravity anchor", type = "gravityanchor", icon = "ga", Color = Color.purple, owned = true });
+                if (player.soulshard) items.add(new inventoryitem { name = "soul shard", type = "soulshard", icon = "ss", Color = Color.magenta, owned = true });
+                if (player.phasebeacon) items.add(new inventoryitem { name = "phase beacon", type = "phasebeacon", icon = "pb", Color = Color.cyan, owned = true });
             }
 
             return items;
         }
 
-        public void draw(spritebatch spritebatch, player player, int maxbits)
+        public void draw(SpriteBatch SpriteBatch, player player, int maxbits)
         {
             var w = _game.graphicsdevice.viewport.width;
             var h = _game.graphicsdevice.viewport.height;
@@ -221,8 +221,8 @@ namespace purge_v0_4_0.game.script.systems
             // 标题
             var title = _loc.get("inventory");
             var titlesize = font.measurestring(title);
-            spritebatch.drawstring(font, title, new vector2(w / 2 - titlesize.x / 2, 30), color.white);
-            spritebatch.drawstring(smallfont, $"{_loc.get("bits")}: {maxbits}", new vector2(20, 20), color.yellow);
+            SpriteBatch.drawstring(font, title, new Vector2(w / 2 - titlesize.x / 2, 30), Color.white);
+            SpriteBatch.drawstring(smallfont, $"{_loc.get("bits")}: {maxbits}", new Vector2(20, 20), Color.yellow);
 
             // 分类标签
             var tabwidth = 120f;
@@ -242,9 +242,9 @@ namespace purge_v0_4_0.game.script.systems
 
             foreach (var cat in categories)
             {
-                var bgcolor = category == cat.cat ? color.lightblue : color.darkblue;
-                primitives2d.fillrectangle(spritebatch, new rectangle((int)cat.x, (int)taby, (int)tabwidth, (int)tabheight), bgcolor, 10);
-                spritebatch.drawstring(font, cat.name, new vector2(cat.x + tabwidth / 2 - font.measurestring(cat.name).x / 2, taby + 10), color.white);
+                var bgcolor = category == cat.cat ? Color.lightblue : Color.darkblue;
+                primitives2d.fillrectangle(SpriteBatch, new Rectangle((int)cat.x, (int)taby, (int)tabwidth, (int)tabheight), bgcolor, 10);
+                SpriteBatch.drawstring(font, cat.name, new Vector2(cat.x + tabwidth / 2 - font.measurestring(cat.name).x / 2, taby + 10), Color.white);
             }
 
             // 物品列表
@@ -262,10 +262,10 @@ namespace purge_v0_4_0.game.script.systems
                 var itemwidth = 500f;
                 var itemx = (w - itemwidth) / 2;
 
-                primitives2d.fillrectangle(spritebatch, new rectangle((int)itemx, (int)y, (int)itemwidth, (int)itemheight - 5), color.darkblue * 0.8f, 10);
+                primitives2d.fillrectangle(SpriteBatch, new Rectangle((int)itemx, (int)y, (int)itemwidth, (int)itemheight - 5), Color.darkblue * 0.8f, 10);
 
-                spritebatch.drawstring(font, item.icon, new vector2(itemx + 15, y + 25), item.color);
-                spritebatch.drawstring(smallfont, item.name, new vector2(itemx + 60, y + 20), color.white);
+                SpriteBatch.drawstring(font, item.icon, new Vector2(itemx + 15, y + 25), item.Color);
+                SpriteBatch.drawstring(smallfont, item.name, new Vector2(itemx + 60, y + 20), Color.white);
 
                 // 绑定槽位显示
                 if (category == "weapons")
@@ -274,7 +274,7 @@ namespace purge_v0_4_0.game.script.systems
                     {
                         if (player.weaponslots[s] == item.type)
                         {
-                            spritebatch.drawstring(smallfont, $"[{s + 1}]", new vector2(itemx + itemwidth - 60, y + 25), color.green);
+                            SpriteBatch.drawstring(smallfont, $"[{s + 1}]", new Vector2(itemx + itemwidth - 60, y + 25), Color.green);
                             break;
                         }
                     }
@@ -284,7 +284,7 @@ namespace purge_v0_4_0.game.script.systems
             // 提示
             var hint = $"{_loc.get("esc_return")} | {_loc.get("up_down_scroll")} | {_loc.get("click_item_bind")}";
             var hintsize = smallfont.measurestring(hint);
-            spritebatch.drawstring(smallfont, hint, new vector2(20, h - 30), color.gray);
+            SpriteBatch.drawstring(smallfont, hint, new Vector2(20, h - 30), Color.gray);
         }
 
         public void wheelmoved(int delta)
@@ -300,7 +300,7 @@ namespace purge_v0_4_0.game.script.systems
             public string name = "";
             public string type = "";
             public string icon = "";
-            public color color = color.white;
+            public Color Color = Color.white;
             public bool owned = false;
             public bool isactive = false;
         }

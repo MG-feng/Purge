@@ -27,7 +27,7 @@ namespace purge_v0_4_0.game.script.systems
             _loc = game.localization;
         }
 
-        public void update(mousestate mouse, mousestate prevmouse, keyboardstate keyboard, keyboardstate prevkeyboard, game1 game)
+        public void update(MouseState mouse, MouseState prevmouse, KeyboardState keyboard, KeyboardState prevkeyboard, game1 game)
         {
             if (messagemeimer > 0)
                 messagemeimer -= (float)game.time.elapsedgametime.totalseconds;
@@ -74,7 +74,7 @@ namespace purge_v0_4_0.game.script.systems
                     price = 750,
                     description = "damage: 6 | fire rate: 10/s",
                     icon = "r",
-                    color = color.gold,
+                    Color = Color.gold,
                     canpurchase = (p) => !p.hasrifle,
                     onpurchase = (p, g) => { p.hasrifle = true; }
                 },
@@ -86,7 +86,7 @@ namespace purge_v0_4_0.game.script.systems
                     price = 2000,
                     description = "damage: 25 | fire rate: 1/s",
                     icon = "s",
-                    color = color.skyblue,
+                    Color = Color.skyblue,
                     canpurchase = (p) => !p.hassniper,
                     onpurchase = (p, g) => { p.hassniper = true; }
                 },
@@ -98,7 +98,7 @@ namespace purge_v0_4_0.game.script.systems
                     price = 4000,
                     description = "dmg:750 | cd:5s | charge:500",
                     icon = "sr",
-                    color = color.purple,
+                    Color = Color.purple,
                     canpurchase = (p) => !p.hassoulreaper,
                     onpurchase = (p, g) => { p.hassoulreaper = true; }
                 },
@@ -110,7 +110,7 @@ namespace purge_v0_4_0.game.script.systems
                     price = 7500,
                     description = "dmg:15 | 10/s | charge:50",
                     icon = "l",
-                    color = color.red,
+                    Color = Color.red,
                     canpurchase = (p) => !p.haslasergun,
                     onpurchase = (p, g) => { p.haslasergun = true; }
                 },
@@ -122,7 +122,7 @@ namespace purge_v0_4_0.game.script.systems
                     price = 75000,
                     description = "dmg:25 | 1.5s cd | 5s explosion",
                     icon = "ft",
-                    color = color.orange,
+                    Color = Color.orange,
                     canpurchase = (p) => !p.hasfeast,
                     onpurchase = (p, g) => { p.hasfeast = true; }
                 },
@@ -134,7 +134,7 @@ namespace purge_v0_4_0.game.script.systems
                     price = 35000,
                     description = "dmg:10 | triple burst | permanent dmg",
                     icon = "ld",
-                    color = color.crimson,
+                    Color = Color.crimson,
                     canpurchase = (p) => !p.haslifedrain,
                     onpurchase = (p, g) => { p.haslifedrain = true; }
                 },
@@ -146,7 +146,7 @@ namespace purge_v0_4_0.game.script.systems
                     price = 1500,
                     description = "heal 25 hp | cd:30s",
                     icon = "hp",
-                    color = color.green,
+                    Color = Color.green,
                     canpurchase = (p) => !p.ownedskills.contains("heal"),
                     onpurchase = (p, g) => { p.ownedskills.add("heal"); }
                 },
@@ -158,7 +158,7 @@ namespace purge_v0_4_0.game.script.systems
                     price = 3000,
                     description = "+10% damage to bosses",
                     icon = "ds",
-                    color = color.gold,
+                    Color = Color.gold,
                     canpurchase = (p) => !p.ownedskills.contains("dragonslayer"),
                     onpurchase = (p, g) => { p.ownedskills.add("dragonslayer"); g.abilitysystem.applypassiveeffects(p); }
                 },
@@ -170,7 +170,7 @@ namespace purge_v0_4_0.game.script.systems
                     price = 8000,
                     description = "kill heals 1 hp, bosses heal 20 hp",
                     icon = "bt",
-                    color = color.red,
+                    Color = Color.red,
                     canpurchase = (p) => !p.ownedskills.contains("bloodthirst"),
                     onpurchase = (p, g) => { p.ownedskills.add("bloodthirst"); g.abilitysystem.applypassiveeffects(p); }
                 },
@@ -182,7 +182,7 @@ namespace purge_v0_4_0.game.script.systems
                     price = 1000,
                     description = "slow field, enemies -50% speed",
                     icon = "ga",
-                    color = color.purple,
+                    Color = Color.purple,
                     canpurchase = (p) => !p.gravityanchor,
                     onpurchase = (p, g) => { p.gravityanchor = true; }
                 },
@@ -190,9 +190,9 @@ namespace purge_v0_4_0.game.script.systems
             };
         }
 
-        public list<shopitem> getcurrentitems()
+        public List<shopitem> getcurrentitems()
         {
-            var items = new list<shopitem>();
+            var items = new List<shopitem>();
             var allitems = new[] { "rifle", "sniper", "soulreaper", "lasergun", "feast", "lifedrain",
                                    "heal", "dragonslayer", "bloodthirst", "gravityanchor" };
 
@@ -219,7 +219,7 @@ namespace purge_v0_4_0.game.script.systems
             messagemeimer = 2f;
         }
 
-        public void draw(spritebatch spritebatch, player player, int maxbits)
+        public void draw(SpriteBatch SpriteBatch, player player, int maxbits)
         {
             var w = _game.graphicsdevice.viewport.width;
             var h = _game.graphicsdevice.viewport.height;
@@ -229,10 +229,10 @@ namespace purge_v0_4_0.game.script.systems
             // 标题
             var title = _loc.get("shop");
             var titlesize = font.measurestring(title);
-            spritebatch.drawstring(font, title, new vector2(w / 2 - titlesize.x / 2, 30), color.white);
+            SpriteBatch.drawstring(font, title, new Vector2(w / 2 - titlesize.x / 2, 30), Color.white);
 
             // 比特显示
-            spritebatch.drawstring(smallfont, $"{_loc.get("bits")}: {maxbits}", new vector2(20, 20), color.yellow);
+            SpriteBatch.drawstring(smallfont, $"{_loc.get("bits")}: {maxbits}", new Vector2(20, 20), Color.yellow);
 
             // 分类标签
             var tabwidth = 120f;
@@ -252,9 +252,9 @@ namespace purge_v0_4_0.game.script.systems
             foreach (var cat in categories)
             {
                 var hover = false; // 鼠标检测简化
-                var color = selectedcategory == cat.cat ? color.lightblue : (hover ? color.cornflowerblue : color.darkblue);
-                primitives2d.fillrectangle(spritebatch, new rectangle((int)cat.x, (int)taby, (int)tabwidth, (int)tabheight), color, 10);
-                spritebatch.drawstring(font, cat.name, new vector2(cat.x + tabwidth / 2 - font.measurestring(cat.name).x / 2, taby + 10), color.white);
+                var Color = selectedcategory == cat.cat ? Color.lightblue : (hover ? Color.cornflowerblue : Color.darkblue);
+                primitives2d.fillrectangle(SpriteBatch, new Rectangle((int)cat.x, (int)taby, (int)tabwidth, (int)tabheight), Color, 10);
+                SpriteBatch.drawstring(font, cat.name, new Vector2(cat.x + tabwidth / 2 - font.measurestring(cat.name).x / 2, taby + 10), Color.white);
             }
 
             // 物品列表
@@ -273,37 +273,37 @@ namespace purge_v0_4_0.game.script.systems
                 var itemx = (w - itemwidth) / 2;
 
                 var owned = !item.canpurchase(player);
-                var bgcolor = item.color * (owned ? 0.3f : 0.5f);
-                primitives2d.fillrectangle(spritebatch, new rectangle((int)itemx, (int)y, (int)itemwidth, (int)itemheight - 5), bgcolor, 10);
+                var bgcolor = item.Color * (owned ? 0.3f : 0.5f);
+                primitives2d.fillrectangle(SpriteBatch, new Rectangle((int)itemx, (int)y, (int)itemwidth, (int)itemheight - 5), bgcolor, 10);
 
                 // 图标
-                spritebatch.drawstring(font, item.icon, new vector2(itemx + 15, y + 25), color.white);
+                SpriteBatch.drawstring(font, item.icon, new Vector2(itemx + 15, y + 25), Color.white);
 
                 // 名称
-                spritebatch.drawstring(smallfont, item.name, new vector2(itemx + 60, y + 15), color.white);
+                SpriteBatch.drawstring(smallfont, item.name, new Vector2(itemx + 60, y + 15), Color.white);
 
                 // 价格/拥有状态
                 if (owned)
-                    spritebatch.drawstring(smallfont, _loc.get("owned"), new vector2(itemx + itemwidth - 100, y + 30), color.green);
+                    SpriteBatch.drawstring(smallfont, _loc.get("owned"), new Vector2(itemx + itemwidth - 100, y + 30), Color.green);
                 else
-                    spritebatch.drawstring(smallfont, $"{item.price} {_loc.get("bits")}", new vector2(itemx + itemwidth - 120, y + 30), color.yellow);
+                    SpriteBatch.drawstring(smallfont, $"{item.price} {_loc.get("bits")}", new Vector2(itemx + itemwidth - 120, y + 30), Color.yellow);
 
                 // 描述
-                spritebatch.drawstring(smallfont, item.description, new vector2(itemx + 60, y + 50), color.lightgray);
+                SpriteBatch.drawstring(smallfont, item.description, new Vector2(itemx + 60, y + 50), Color.lightgray);
             }
 
             // 消息
             if (!string.isnullorempty(message))
             {
-                var msgcolor = color.yellow * math.min(1f, messagemeimer);
+                var msgcolor = Color.yellow * math.min(1f, messagemeimer);
                 var msgsize = font.measurestring(message);
-                spritebatch.drawstring(font, message, new vector2(w / 2 - msgsize.x / 2, h - 80), msgcolor);
+                SpriteBatch.drawstring(font, message, new Vector2(w / 2 - msgsize.x / 2, h - 80), msgcolor);
             }
 
             // 提示
             var hint = $"{_loc.get("esc_return")} | {_loc.get("up_down_scroll")}";
             var hintsize = smallfont.measurestring(hint);
-            spritebatch.drawstring(smallfont, hint, new vector2(20, h - 30), color.gray);
+            SpriteBatch.drawstring(smallfont, hint, new Vector2(20, h - 30), Color.gray);
         }
 
         public void wheelmoved(int delta)
@@ -322,7 +322,7 @@ namespace purge_v0_4_0.game.script.systems
             public int price = 0;
             public string description = "";
             public string icon = "";
-            public color color = color.white;
+            public Color Color = Color.white;
             public func<player, bool> canpurchase = (p) => true;
             public action<player, game1> onpurchase = (p, g) => { };
         }

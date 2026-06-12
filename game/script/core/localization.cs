@@ -7,12 +7,12 @@ namespace purge_v0_4_0.game.script.core
 {
     public class localization
     {
-        private dictionary<string, string> _strings;
+        private Dictionary<string, string> _strings;
         private string _currentlanguage;
 
         public localization()
         {
-            _strings = new dictionary<string, string>();
+            _strings = new Dictionary<string, string>();
         }
 
         public void load(string language)
@@ -25,7 +25,7 @@ namespace purge_v0_4_0.game.script.core
                 if (file.exists(langpath))
                 {
                     var json = file.readalltext(langpath);
-                    _strings = jsonserializer.deserialize<dictionary<string, string>>(json) ?? new dictionary<string, string>();
+                    _strings = jsonserializer.deserialize<Dictionary<string, string>>(json) ?? new Dictionary<string, string>();
                 }
                 else
                 {
@@ -40,7 +40,7 @@ namespace purge_v0_4_0.game.script.core
 
         private void loaddefaults()
         {
-            _strings = new dictionary<string, string>
+            _strings = new Dictionary<string, string>
             {
                 { "play", "play" },
                 { "inventory", "inventory" },

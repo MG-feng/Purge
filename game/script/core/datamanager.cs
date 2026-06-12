@@ -158,7 +158,7 @@ namespace purge_v0_4_0.game.script.core
                     player.activeskillslots = data.activeskillslots ?? new string[4];
                     player.passiveskillslots = data.passiveskillslots ?? new string[2];
                     player.throwableslots = data.throwableslots ?? new string[3];
-                    player.ownedskills = new hashset<string>(data.ownedskills ?? new string[0]);
+                    player.ownedskills = new HashSet<string>(data.ownedskills ?? new string[0]);
                 }
                 else
                 {
@@ -185,7 +185,7 @@ namespace purge_v0_4_0.game.script.core
             player.activeskillslots = new string[4];
             player.passiveskillslots = new string[2];
             player.throwableslots = new string[3];
-            player.ownedskills = new hashset<string>();
+            player.ownedskills = new HashSet<string>();
         }
 
         private string encrypt(string text)
