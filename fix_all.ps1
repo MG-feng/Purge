@@ -1,27 +1,32 @@
-# 修复 Game1.cs 中的 SpriteFont.default 问题
-$game1 = Get-Content Game1.cs -Raw
-$game1 = $game1 -replace '_font = SpriteFont\.default;', '_font = null; // TODO: 加载字体文件'
-$game1 = $game1 -replace '_smallfont = SpriteFont\.default;', '_smallfont = null; // TODO: 加载字体文件'
-$game1 = $game1 -replace '_titlefont = SpriteFont\.default;', '_titlefont = null; // TODO: 加载字体文件'
-Set-Content Game1.cs -Value $game1 -NoNewline
-Write-Host "Fixed Game1.cs"
+# fix_usings.ps1
+$files = Get-ChildItem -Recurse -Filter *.cs
 
-# 同样修复其他 UI 文件中的类似问题
-$uiFiles = @(
-    "game/script/ui/menumanager.cs",
-    "game/script/ui/uimanager.cs",
-    "game/script/ui/healthbar.cs",
-    "game/script/ui/staminabar.cs"
-)
+# 需要添加的 using 语句
+$usings = @'
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
-foreach ($file in $uiFiles) {
-    if (Test-Path $file) {
-        $content = Get-Content $file -Raw
-        $content = $content -replace 'SpriteFont\.default', 'null'
-        $content = $content -replace '_font\s*=\s*null;', '_font = null; // TODO: 加载字体文件'
-        Set-Content $file -Value $content -NoNewline
-        Write-Host "Fixed: $file"
+'@
+
+foreach ($file in $files) {
+    $content = Get-Content $file.FullName -Raw
+
+    # 检查是否已经有 using 语句
+    if ($content -notmatch 'using System;') {
+        # 在文件开头添加 using（如果有 namespace，放在 namespace 之前）
+        if ($content -match 'namespace') {
+            $content = $usings + $content
+        } else {
+            $content = $usings + $content
+        }
+        Set-Content $file.FullName -Value $content -NoNewline
+        Write-Host "Added usings to: $($file.Name)"
+    } else {
+        Write-Host "Already has usings: $($file.Name)"
     }
 }
 
-Write-Host "Done! All font issues fixed."
+Write-Host "Done!"
