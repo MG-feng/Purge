@@ -192,8 +192,8 @@ namespace purge_v0_4_0.game.script.systems
         private void spawnenemy(string enemytype, List<enemy> enemies)
         {
             var mult = _config.getdifficultymultiplier(mode);
-            var screenw = _game.graphicsdevice.viewport.width;
-            var screenh = _game.graphicsdevice.viewport.height;
+            var screenw = _game.GraphicsDevice.viewport.width;
+            var screenh = _game.GraphicsDevice.viewport.height;
             var side = _random.next(1, 5);
             var off = _random.next(100, 200);
             float x = 0, y = 0;

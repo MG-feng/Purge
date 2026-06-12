@@ -391,9 +391,9 @@ namespace purge_v0_4_0.game.script.entities
                     var wx = position.x + 10 + (float)math.cos(angle) * weapon.distance;
                     var wy = position.y + 10 + (float)math.sin(angle) * weapon.distance;
 
-                    var matrix = matrix.createtranslation(wx, wy, 0) * matrix.createrotationz(angle);
+                    var Matrix = Matrix.createtranslation(wx, wy, 0) * Matrix.createrotationz(angle);
                     SpriteBatch.end();
-                    SpriteBatch.begin(transformmatrix: matrix);
+                    SpriteBatch.begin(transformmatrix: Matrix);
 
                     primitives2d.fillrectangle(SpriteBatch, new Rectangle(0, (int)-weapon.size / 2, (int)weapon.size, (int)weapon.size / 2), weapon.Color);
 

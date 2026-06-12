@@ -213,8 +213,8 @@ namespace purge_v0_4_0.game.script.systems
 
         public void draw(SpriteBatch SpriteBatch, player player, int maxbits)
         {
-            var w = _game.graphicsdevice.viewport.width;
-            var h = _game.graphicsdevice.viewport.height;
+            var w = _game.GraphicsDevice.viewport.width;
+            var h = _game.GraphicsDevice.viewport.height;
             var font = _game.uimanager.getfont();
             var smallfont = _game.uimanager.getsmallfont();
 

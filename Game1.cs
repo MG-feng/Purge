@@ -136,18 +136,18 @@ namespace purge_v0_4_0
 
         protected override void loadcontent()
         {
-            _spritebatch = new SpriteBatch(graphicsdevice);
-            _pixel = new Texture2D(graphicsdevice, 1, 1);
+            _spritebatch = new SpriteBatch(GraphicsDevice);
+            _pixel = new Texture2D(GraphicsDevice, 1, 1);
             _pixel.setdata(new[] { Color.white });
 
-            primitives2d.init(graphicsdevice);
+            primitives2d.init(GraphicsDevice);
 
             // ??????
             var fontcolor = new[] { Color.white };
-            var fonttex = new Texture2D(graphicsdevice, 256, 256);
-            _font = SpriteFont.default;
-            _smallfont = SpriteFont.default;
-            _titlefont = SpriteFont.default;
+            var fonttex = new Texture2D(GraphicsDevice, 256, 256);
+            _font = Content.Load<SpriteFont>("Fonts/DefaultFont");
+            _smallfont = Content.Load<SpriteFont>("Fonts/SmallFont");
+            _titlefont = Content.Load<SpriteFont>("Fonts/TitleFont");
         }
 
         protected override void update(GameTime GameTime)
@@ -269,8 +269,8 @@ namespace purge_v0_4_0
 
         private void updatemenu(MouseState mouse)
         {
-            var w = graphicsdevice.viewport.width;
-            var h = graphicsdevice.viewport.height;
+            var w = GraphicsDevice.viewport.width;
+            var h = GraphicsDevice.viewport.height;
             var bw = 200;
             var bh = 50;
             var starty = h / 2 - 100;
@@ -301,8 +301,8 @@ namespace purge_v0_4_0
 
         private void updatedifficulty(MouseState mouse)
         {
-            var w = graphicsdevice.viewport.width;
-            var h = graphicsdevice.viewport.height;
+            var w = GraphicsDevice.viewport.width;
+            var h = GraphicsDevice.viewport.height;
             var bw = 200;
             var bh = 50;
             var starty = h / 2 - 120;
@@ -332,8 +332,8 @@ namespace purge_v0_4_0
 
         private void updatepause(MouseState mouse)
         {
-            var w = graphicsdevice.viewport.width;
-            var h = graphicsdevice.viewport.height;
+            var w = GraphicsDevice.viewport.width;
+            var h = GraphicsDevice.viewport.height;
 
             var resume = new Rectangle(w / 2 - 50, h / 2 - 20, 100, 30);
             var menu = new Rectangle(w / 2 - 70, h / 2 + 20, 140, 30);
@@ -439,7 +439,7 @@ namespace purge_v0_4_0
             // ????
             if (_player.weapontype != "lasergun")
             {
-                var cameraworld = _player.center - new Vector2(graphicsdevice.viewport.width / 2, graphicsdevice.viewport.height / 2);
+                var cameraworld = _player.center - new Vector2(GraphicsDevice.viewport.width / 2, GraphicsDevice.viewport.height / 2);
                 var worldmouse = new Vector2(mouse.x, mouse.y) + cameraworld;
                 var dx = worldmouse.x - _player.center.x;
                 var dy = worldmouse.y - _player.center.y;
@@ -573,7 +573,7 @@ namespace purge_v0_4_0
                 _player.lastlasershottime = (float)DateTime.now.timeofday.totalseconds;
 
                 var mouse = MouseState.getstate();
-                var cameraworld = _player.center - new Vector2(graphicsdevice.viewport.width / 2, graphicsdevice.viewport.height / 2);
+                var cameraworld = _player.center - new Vector2(GraphicsDevice.viewport.width / 2, GraphicsDevice.viewport.height / 2);
                 var worldmouse = new Vector2(mouse.x, mouse.y) + cameraworld;
                 var direction = worldmouse - _player.center;
                 if (direction != Vector2.zero) direction.normalize();
@@ -814,7 +814,7 @@ namespace purge_v0_4_0
         private void usethrowable(int slot)
         {
             var mouse = MouseState.getstate();
-            var cameraworld = _player.center - new Vector2(graphicsdevice.viewport.width / 2, graphicsdevice.viewport.height / 2);
+            var cameraworld = _player.center - new Vector2(GraphicsDevice.viewport.width / 2, GraphicsDevice.viewport.height / 2);
             var worldmouse = new Vector2(mouse.x, mouse.y) + cameraworld;
             var dir = worldmouse - _player.center;
             if (dir != Vector2.zero) dir.normalize();
@@ -1025,7 +1025,7 @@ namespace purge_v0_4_0
 
         protected override void draw(GameTime GameTime)
         {
-            graphicsdevice.clear(Color.black);
+            GraphicsDevice.clear(Color.black);
 
             _spritebatch.begin();
 
@@ -1059,8 +1059,8 @@ namespace purge_v0_4_0
 
         private void drawmenu()
         {
-            var w = graphicsdevice.viewport.width;
-            var h = graphicsdevice.viewport.height;
+            var w = GraphicsDevice.viewport.width;
+            var h = GraphicsDevice.viewport.height;
             var bw = 200;
             var bh = 50;
             var starty = h / 2 - 100;
@@ -1089,8 +1089,8 @@ namespace purge_v0_4_0
 
         private void drawdifficulty()
         {
-            var w = graphicsdevice.viewport.width;
-            var h = graphicsdevice.viewport.height;
+            var w = GraphicsDevice.viewport.width;
+            var h = GraphicsDevice.viewport.height;
             var bw = 200;
             var bh = 50;
             var starty = h / 2 - 120;
@@ -1120,8 +1120,8 @@ namespace purge_v0_4_0
 
         private void drawpausemenu()
         {
-            var w = graphicsdevice.viewport.width;
-            var h = graphicsdevice.viewport.height;
+            var w = GraphicsDevice.viewport.width;
+            var h = GraphicsDevice.viewport.height;
 
             var title = _loc.get("paused");
             var titlesize = _titlefont.measurestring(title);
@@ -1145,8 +1145,8 @@ namespace purge_v0_4_0
         private void drawgameplaying()
         {
             // ??????
-            var camerapos = _player.center - new Vector2(graphicsdevice.viewport.width / 2, graphicsdevice.viewport.height / 2);
-            var transform = matrix.createtranslation(-camerapos.x, -camerapos.y, 0);
+            var camerapos = _player.center - new Vector2(GraphicsDevice.viewport.width / 2, GraphicsDevice.viewport.height / 2);
+            var transform = Matrix.createtranslation(-camerapos.x, -camerapos.y, 0);
             _spritebatch.end();
             _spritebatch.begin(transformmatrix: transform);
 
@@ -1193,13 +1193,13 @@ namespace purge_v0_4_0
             {
                 var text = _loc.get("you_died");
                 var size = _titlefont.measurestring(text);
-                _spritebatch.drawstring(_titlefont, text, new Vector2(graphicsdevice.viewport.width / 2 - size.x / 2, graphicsdevice.viewport.height / 2 - 70), Color.red);
+                _spritebatch.drawstring(_titlefont, text, new Vector2(GraphicsDevice.viewport.width / 2 - size.x / 2, GraphicsDevice.viewport.height / 2 - 70), Color.red);
                 text = _loc.get("press_x_restart");
                 size = _font.measurestring(text);
-                _spritebatch.drawstring(_font, text, new Vector2(graphicsdevice.viewport.width / 2 - size.x / 2, graphicsdevice.viewport.height / 2 + 10), Color.white);
+                _spritebatch.drawstring(_font, text, new Vector2(GraphicsDevice.viewport.width / 2 - size.x / 2, GraphicsDevice.viewport.height / 2 + 10), Color.white);
             }
 
-            _spritebatch.drawstring(_smallfont, _loc.get("press_m_for_menu"), new Vector2(10, graphicsdevice.viewport.height - 30), Color.gray);
+            _spritebatch.drawstring(_smallfont, _loc.get("press_m_for_menu"), new Vector2(10, GraphicsDevice.viewport.height - 30), Color.gray);
         }
 
         // ????

@@ -28,9 +28,9 @@ namespace purge_v0_4_0.game.script.ui
 
         public void loadcontent(SpriteBatch SpriteBatch, Texture2D pixel)
         {
-            _font = SpriteFont.default;
-            _smallfont = SpriteFont.default;
-            _titlefont = SpriteFont.default;
+            _font = null; // TODO: 加载字体文件
+            _smallfont = null;
+            _titlefont = null;
         }
 
         public void updatemenu(MouseState mouse, MouseState prevmouse, game1 game)
@@ -64,13 +64,13 @@ namespace purge_v0_4_0.game.script.ui
 
         public void drawmenu(SpriteBatch SpriteBatch, int maxbits)
         {
-            var w = _game.graphicsdevice.viewport.width;
-            var h = _game.graphicsdevice.viewport.height;
+            var w = _game.GraphicsDevice.viewport.width;
+            var h = _game.GraphicsDevice.viewport.height;
             var bw = 200f;
             var bh = 50f;
             var starty = h / 2 - 100;
 
-            _game.graphicsdevice.clear(Color.black);
+            _game.GraphicsDevice.clear(Color.black);
 
             var title = "purge";
             var titlesize = _titlefont.measurestring(title);
@@ -97,13 +97,13 @@ namespace purge_v0_4_0.game.script.ui
 
         public void drawdifficulty(SpriteBatch SpriteBatch)
         {
-            var w = _game.graphicsdevice.viewport.width;
-            var h = _game.graphicsdevice.viewport.height;
+            var w = _game.GraphicsDevice.viewport.width;
+            var h = _game.GraphicsDevice.viewport.height;
             var bw = 200f;
             var bh = 50f;
             var starty = h / 2 - 120;
 
-            _game.graphicsdevice.clear(Color.black);
+            _game.GraphicsDevice.clear(Color.black);
 
             var title = _loc.get("select_difficulty");
             var titlesize = _titlefont.measurestring(title);
@@ -131,8 +131,8 @@ namespace purge_v0_4_0.game.script.ui
 
         public void drawpausemenu(SpriteBatch SpriteBatch)
         {
-            var w = _game.graphicsdevice.viewport.width;
-            var h = _game.graphicsdevice.viewport.height;
+            var w = _game.GraphicsDevice.viewport.width;
+            var h = _game.GraphicsDevice.viewport.height;
 
             var title = _loc.get("paused");
             var titlesize = _titlefont.measurestring(title);
@@ -155,10 +155,10 @@ namespace purge_v0_4_0.game.script.ui
 
         public void drawbestiary(SpriteBatch SpriteBatch)
         {
-            var w = _game.graphicsdevice.viewport.width;
-            var h = _game.graphicsdevice.viewport.height;
+            var w = _game.GraphicsDevice.viewport.width;
+            var h = _game.GraphicsDevice.viewport.height;
 
-            _game.graphicsdevice.clear(Color.darkblue);
+            _game.GraphicsDevice.clear(Color.darkblue);
 
             var title = "bestiary";
             var titlesize = _titlefont.measurestring(title);

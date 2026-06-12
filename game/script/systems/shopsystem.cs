@@ -221,8 +221,8 @@ namespace purge_v0_4_0.game.script.systems
 
         public void draw(SpriteBatch SpriteBatch, player player, int maxbits)
         {
-            var w = _game.graphicsdevice.viewport.width;
-            var h = _game.graphicsdevice.viewport.height;
+            var w = _game.GraphicsDevice.viewport.width;
+            var h = _game.GraphicsDevice.viewport.height;
             var font = _game.uimanager.getfont();
             var smallfont = _game.uimanager.getsmallfont();
 
@@ -323,8 +323,8 @@ namespace purge_v0_4_0.game.script.systems
             public string description = "";
             public string icon = "";
             public Color Color = Color.white;
-            public func<player, bool> canpurchase = (p) => true;
-            public action<player, game1> onpurchase = (p, g) => { };
+            public Func<player, bool> canpurchase = (p) => true;
+            public Action<player, game1> onpurchase = (p, g) => { };
         }
     }
 }

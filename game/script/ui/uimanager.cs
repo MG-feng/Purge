@@ -29,9 +29,9 @@ namespace purge_v0_4_0.game.script.ui
         public void loadcontent(SpriteBatch SpriteBatch, Texture2D pixel)
         {
             // 使用默认字体
-            _font = SpriteFont.default;
-            _smallfont = SpriteFont.default;
-            _largefont = SpriteFont.default;
+            _font = null; // TODO: 加载字体文件
+            _smallfont = null;
+            _largefont = null;
         }
 
         public SpriteFont getfont() => _font;
@@ -50,8 +50,8 @@ namespace purge_v0_4_0.game.script.ui
 
         public void draw(SpriteBatch SpriteBatch, player player, wavesystem wavesystem, int bits, int maxbits, int mapwidth, int mapheight, int enemycount)
         {
-            var w = _game.graphicsdevice.viewport.width;
-            var h = _game.graphicsdevice.viewport.height;
+            var w = _game.GraphicsDevice.viewport.width;
+            var h = _game.GraphicsDevice.viewport.height;
             var margin = 30;
 
             // 血条

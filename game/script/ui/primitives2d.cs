@@ -8,7 +8,7 @@ namespace purge_v0_4_0.game.script.ui
     {
         private static Texture2D _pixel;
 
-        public static void init(graphicsdevice device)
+        public static void init(GraphicsDevice device)
         {
             _pixel = new Texture2D(device, 1, 1);
             _pixel.setdata(new[] { Color.white });

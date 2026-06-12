@@ -1,5 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 using purge_v0_4_0.game.script.core;
 using purge_v0_4_0.game.script.entities;
 
