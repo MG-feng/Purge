@@ -1,0 +1,10 @@
+bin/ 
+obj/ 
+Content/bin/ 
+Content/obj/ 
+.vs/ 
+.idea/ 
+*.user 
+*.suo 
+publish/ 
+installer_output/ 

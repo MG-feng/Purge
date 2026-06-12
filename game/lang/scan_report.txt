@@ -1,0 +1,59 @@
+============================================================
+字符串扫描报告
+============================================================
+
+【UI_TEXT】(116 个)
+  [datamanager.cs:110] failed to save: {e.message}
+  [datamanager.cs:110] failed to save: {e.message}
+  [settings.cs:57] failed to load settings: {e.message}
+  [settings.cs:71] failed to save settings: {e.message}
+  [settings.cs:57] failed to load settings: {e.message}
+  [settings.cs:71] failed to save settings: {e.message}
+  [abilitysystem.cs:70] heal used! restored 25 hp
+  [abilitysystem.cs:98] harvest used! executed {killcount} enemies, damaged {damagec...
+  [abilitysystem.cs:109] siphon activated! 50% damage converted to hp for 10s
+  [abilitysystem.cs:137] force field used! stunned {stunnedcount} enemies
+  [abilitysystem.cs:179] degradation used! converted {convertedcount} enemies, includ...
+  [abilitysystem.cs:188] dragon slayer activated
+  [abilitysystem.cs:194] bloodthirst activated
+  [abilitysystem.cs:202] constant motion activated
+  [abilitysystem.cs:98] harvest used! executed {killcount} enemies, damaged {damagec...
+  [abilitysystem.cs:137] force field used! stunned {stunnedcount} enemies
+  [abilitysystem.cs:179] degradation used! converted {convertedcount} enemies, includ...
+  [inventorysystem.cs:85] bound weapon {weapontype} to slot {slot + 1}
+  [inventorysystem.cs:99] bound active skill {skillid} to slot {slot + 1}
+  [inventorysystem.cs:121] equipped passive skill {skillid} to slot p{slot + 1}
+  ... 共 116 个
+
+【FILE_PATHS】(2 个)
+  [localization.cs:21] {language}.json
+  [localization.cs:21] {language}.json
+
+【OTHER】(65 个)
+  [localization.cs:52] next wave
+  [localization.cs:53] game complete!
+  [localization.cs:56] you died
+  [localization.cs:57] press x to restart
+  [localization.cs:58] press m for menu
+  [localization.cs:61] main menu
+  [localization.cs:63] select difficulty
+  [localization.cs:68] boss rush
+  [localization.cs:69] press esc to return
+  [localization.cs:70] active skills
+  [localization.cs:71] passive skills
+  [localization.cs:74] not ready
+  [localization.cs:75] ready to fire
+  [localization.cs:76] auto-recharges after 4s
+  [localization.cs:77] attracts enemies | explodes after 5s
+  [localization.cs:78] permanent dmg
+  [localization.cs:79] press r to reload
+  [localization.cs:80] press 1-4 for weapons
+  [localization.cs:81] soul charge
+  [localization.cs:82] laser charge
+  ... 共 65 个
+
+============================================================
+语言文件位置: C:\Users\fengm\Desktop\Code\Purge\Purge_v0.4.0\game\lang
+  - zh.json: 中文原文
+  - en.json: 需要翻译的英文
+============================================================

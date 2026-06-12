@@ -1,0 +1,226 @@
+name: Build and Package Game
+
+on:
+  push:
+    branches: [ main, master ]
+    tags:
+      - 'v*'  # 推送 v1.0.0 这样的标签时也触发
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  build-windows:
+    name: Build Windows Installer
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Install MonoGame templates
+      run: dotnet new install MonoGame.Templates.CSharp
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build -c Release --no-restore
+
+    - name: Publish Windows Portable
+      run: |
+        dotnet publish -c Release -r win-x64 --self-contained false -p:PublishReadyToRun=true -o ./publish/win-portable
+
+    - name: Download Inno Setup
+      run: |
+        curl -L -o is.exe https://jrsoftware.org/download.php/is.exe
+        start /wait is.exe /verysilent /suppressmsgboxes
+        echo "C:\Program Files (x86)\Inno Setup 6" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+    - name: Create Inno Setup Script
+      run: |
+        $version = (Get-Content "Purge_v0.4.0.csproj" | Select-String "<Version>(.*)</Version>").Matches.Groups[1].Value
+        if (-not $version) { $version = "0.4.0" }
+
+        @"
+        [Setup]
+        AppName=Purge
+        AppVersion=$version
+        AppVerName=Purge $version
+        AppPublisher=MG-feng
+        AppPublisherURL=https://github.com/MG-feng/Purge
+        AppSupportURL=https://github.com/MG-feng/Purge
+        AppUpdatesURL=https://github.com/MG-feng/Purge/releases
+        DefaultDirName={autopf}\Purge
+        DefaultGroupName=Purge
+        AllowNoIcons=yes
+        LicenseFile=LICENSE
+        OutputDir=installer_output
+        OutputBaseFilename=Purge_v${version}_Setup
+        Compression=lzma2
+        SolidCompression=yes
+        WizardStyle=modern
+        UninstallDisplayIcon={app}\Purge_v0.4.0.exe
+
+        [Languages]
+        Name: "english"; MessagesFile: "compiler:Default.isl"
+        Name: "chinesesimplified"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
+
+        [Tasks]
+        Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:"
+
+        [Files]
+        Source: "publish\win-portable\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
+
+        [Icons]
+        Name: "{group}\Purge"; Filename: "{app}\Purge_v0.4.0.exe"
+        Name: "{group}\Uninstall Purge"; Filename: "{uninstallexe}"
+        Name: "{autodesktop}\Purge"; Filename: "{app}\Purge_v0.4.0.exe"; Tasks: desktopicon
+
+        [Run]
+        Filename: "{app}\Purge_v0.4.0.exe"; Description: "Launch Purge"; Flags: postinstall nowait skipifsilent
+        "@ | Out-File -FilePath installer.iss -Encoding utf8
+
+    - name: Build Inno Setup Installer
+      run: iscc installer.iss
+
+    - name: Upload Windows Installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: Purge-Windows-Setup
+        path: installer_output/*.exe
+
+    - name: Upload Windows Portable (ZIP)
+      uses: actions/upload-artifact@v4
+      with:
+        name: Purge-Windows-Portable
+        path: publish/win-portable/
+
+  build-macos:
+    name: Build macOS Application
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Install MonoGame templates
+      run: dotnet new install MonoGame.Templates.CSharp
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build -c Release --no-restore
+
+    - name: Publish macOS App
+      run: |
+        dotnet publish -c Release -r osx-x64 --self-contained true -p:PublishReadyToRun=true -o ./publish/osx-app
+        # 重命名为 .app 包
+        mkdir -p Purge.app/Contents/MacOS
+        cp -r publish/osx-app/* Purge.app/Contents/MacOS/
+
+        # 创建 Info.plist
+        cat > Purge.app/Contents/Info.plist << EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+        <dict>
+            <key>CFBundleName</key>
+            <string>Purge</string>
+            <key>CFBundleDisplayName</key>
+            <string>Purge</string>
+            <key>CFBundleIdentifier</key>
+            <string>com.mgfeng.purge</string>
+            <key>CFBundleVersion</key>
+            <string>0.4.0</string>
+            <key>CFBundlePackageType</key>
+            <string>APPL</string>
+            <key>CFBundleExecutable</key>
+            <string>Purge_v0.4.0</string>
+            <key>NSHighResolutionCapable</key>
+            <true/>
+        </dict>
+        </plist>
+        EOF
+
+        chmod +x Purge.app/Contents/MacOS/Purge_v0.4.0
+
+    - name: Create macOS DMG (可选)
+      run: |
+        # 使用 create-dmg 工具（需要安装）
+        brew install create-dmg || true
+        create-dmg --volname "Purge Installer" --window-pos 200 120 --window-size 800 400 --icon-size 100 --icon "Purge.app" 100 150 --hide-extension "Purge.app" --app-drop-link 600 150 "Purge.dmg" "Purge.app" || echo "DMG creation skipped"
+
+    - name: Zip macOS App
+      run: zip -r Purge-macOS.zip Purge.app
+
+    - name: Upload macOS App
+      uses: actions/upload-artifact@v4
+      with:
+        name: Purge-macOS
+        path: |
+          Purge-macOS.zip
+          Purge.dmg
+
+  create-release:
+    name: Create GitHub Release
+    needs: [build-windows, build-macos]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts/
+
+    - name: List artifacts
+      run: ls -la artifacts/
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: Purge ${{ github.ref_name }}
+        body: |
+          ## Purge ${{ github.ref_name }}
+
+          ### 下载 / Downloads
+
+          #### Windows
+          - 安装程序 (Installer): `Purge-Windows-Setup/Purge_*_Setup.exe`
+          - 便携版 (Portable): `Purge-Windows-Portable.zip`
+
+          #### macOS
+          - 应用程序 (App): `Purge-macOS/Purge-macOS.zip`
+
+          ### 更新内容 / What's New
+          - 完整 MonoGame C# 移植
+          - 新增本地化支持 (英文/繁体中文)
+          - 对象池优化，减少卡顿
+          - 加密存档系统
+
+          ### 如何运行 / How to Run
+          - **Windows**: 运行安装程序，或解压便携版后运行 `Purge_v0.4.0.exe`
+          - **macOS**: 解压后拖拽 `Purge.app` 到 Applications 文件夹
+
+          > 注意：macOS 可能需要右键点击应用并选择“打开”才能首次运行。
+        draft: false
+        prerelease: false
+        files: |
+          artifacts/Purge-Windows-Setup/*.exe
+          artifacts/Purge-Windows-Portable/**/*.dll
+          artifacts/Purge-Windows-Portable/*.exe
+          artifacts/Purge-macOS/*.zip
