@@ -87,9 +87,9 @@ This project is created entirely in my free time. Updates are irregular and may 
 
 ## 📄 开源协议 / License
 
-本游戏开源，但修改后必须标注原作者（MoonlightGames / MG_Feng）> (GPL) Creative Commons Attribution v4.0 International。
+本游戏开源，但请遵循AGPL-3.0协议
 
-This game is open source. Any modified version must credit the original author (MoonlightGames / MG_Feng) under the terms of (GPL) Creative Commons Attribution v4.0 International.
+This game is open source, but please follow the AGPL-3.0 license.
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 
